@@ -1,0 +1,20 @@
+{
+    "name": "jdenticon",
+    "description": "Render PNG and SVG identicons.",
+    "license": "MIT",
+    "keywords": [
+        "jdenticon",
+        "identicon"
+    ],
+    "homepage": "https://github.com/dmester/jdenticon-php",
+    "autoload": {
+        "psr-4": {
+            "Jdenticon\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^5.5 || ^7.0"
+    },
+    "require-dev": {
+    }
+}

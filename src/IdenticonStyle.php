@@ -10,7 +10,8 @@ class IdenticonStyle
 {
     private $backgroundColor;
     private $padding;
-    private $saturation;
+    private $colorSaturation;
+    private $grayscaleSaturation;
     private $colorLightness;
     private $grayscaleLightness;
     
@@ -18,7 +19,8 @@ class IdenticonStyle
     {
         $this->backgroundColor = self::getDefaultBackgroundColor();
         $this->padding = self::getDefaultPadding();
-        $this->saturation = self::getDefaultSaturation();
+        $this->colorSaturation = self::getDefaultColorSaturation();
+        $this->grayscaleSaturation = self::getDefaultGrayscaleSaturation();
         $this->colorLightness = self::getDefaultColorLightness();
         $this->grayscaleLightness = self::getDefaultGrayscaleLightness();
     }
@@ -56,13 +58,35 @@ class IdenticonStyle
     }
     
     /**
+     * Gets the saturation of the originally grayscale identicon shapes.
+     *
+     * @return double  Saturation in the range [0.0, 1.0].
+     */
+    public function getGrayscaleSaturation()
+    {
+        return $this->grayscaleSaturation;
+    }
+    
+    /**
+     * Sets the saturation of the originally grayscale identicon shapes.
+     *
+     * @param $value double  Saturation in the range [0.0, 1.0].
+     * @return \Jdenticon\IdenticonStyle
+     */
+    public function setGrayscaleSaturation($value)
+    {
+        $this->grayscaleSaturation = $value;
+        return $this;
+    }
+    
+    /**
      * Gets the saturation of the colored identicon shapes.
      *
      * @return double  Saturation in the range [0.0, 1.0].
      */
-    public function getSaturation()
+    public function getColorSaturation()
     {
-        return $this->saturation;
+        return $this->colorSaturation;
     }
     
     /**
@@ -71,9 +95,9 @@ class IdenticonStyle
      * @param $value double  Saturation in the range [0.0, 1.0].
      * @return \Jdenticon\IdenticonStyle
      */
-    public function setSaturation($value)
+    public function setColorSaturation($value)
     {
-        $this->saturation = $value;
+        $this->colorSaturation = $value;
         return $this;
     }
     
@@ -156,13 +180,23 @@ class IdenticonStyle
     }
     
     /**
-     * Gets the default value of the Padding property. Resolves to 0.5.
+     * Gets the default value of the ColorSaturation property. Resolves to 0.5.
      *
      * @return
      */
-    public static function getDefaultSaturation()
+    public static function getDefaultColorSaturation()
     {
         return 0.5;
+    }
+    
+    /**
+     * Gets the default value of the GrayscaleSaturation property. Resolves to 0.
+     *
+     * @return
+     */
+    public static function getDefaultGrayscaleSaturation()
+    {
+        return 0;
     }
     
     /**

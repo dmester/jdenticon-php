@@ -24,15 +24,16 @@ class ColorTheme
         $grayscaleLightness = $style->getGrayscaleLightness();
         $colorLightness = $style->getColorLightness();
         
-        $this->darkGray = Color::fromHsl(0, 0, $grayscaleLightness[0]);
+        $this->darkGray = Color::fromHslCompensated(
+            $hue, $style->getGrayscaleSaturation(), $grayscaleLightness[0]);
         $this->midColor = Color::fromHslCompensated(
-            $hue, $style->getSaturation(), 
-            ($colorLightness[0] + $colorLightness[1]) / 2);
-        $this->lightGray = Color::fromHsl(0, 0, $grayscaleLightness[1]);
+            $hue, $style->getColorSaturation(), ($colorLightness[0] + $colorLightness[1]) / 2);
+        $this->lightGray = Color::fromHslCompensated(
+            $hue, $style->getGrayscaleSaturation(), $grayscaleLightness[1]);
         $this->lightColor = Color::fromHslCompensated(
-            $hue, $style->getSaturation(), $colorLightness[1]);
+            $hue, $style->getColorSaturation(), $colorLightness[1]);
         $this->darkColor = Color::fromHslCompensated(
-            $hue, $style->getSaturation(), $colorLightness[0]);
+            $hue, $style->getColorSaturation(), $colorLightness[0]);
     }
 
     /**

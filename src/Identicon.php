@@ -1,6 +1,7 @@
 <?php
 namespace Jdenticon;
 
+use Jdenticon\IdenticonStyle;
 use Jdenticon\Rendering\Rectangle;
 use Jdenticon\Rendering\RendererInterface;
 use Jdenticon\Rendering\IconGenerator;

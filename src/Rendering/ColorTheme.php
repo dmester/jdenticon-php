@@ -21,12 +21,18 @@ class ColorTheme
      */
     public function __construct($hue, \Jdenticon\IdenticonStyle $style)
     {
-        $this->darkGray = Color::fromHsl(0, 0, $style->getGrayscaleLightness()[0]);
-        $this->midColor = Color::fromHslCompensated($hue, $style->getSaturation(), 
-            ($style->getColorLightness()[0] + $style->getColorLightness()[1]) / 2);
-        $this->lightGray = Color::fromHsl(0, 0, $style->getGrayscaleLightness()[1]);
-        $this->lightColor = Color::fromHslCompensated($hue, $style->getSaturation(), $style->getColorLightness()[1]);
-        $this->darkColor = Color::fromHslCompensated($hue, $style->getSaturation(), $style->getColorLightness()[0]);
+        $grayscaleLightness = $style->getGrayscaleLightness();
+        $colorLightness = $style->getColorLightness();
+        
+        $this->darkGray = Color::fromHsl(0, 0, $grayscaleLightness[0]);
+        $this->midColor = Color::fromHslCompensated(
+            $hue, $style->getSaturation(), 
+            ($colorLightness[0] + $colorLightness[1]) / 2);
+        $this->lightGray = Color::fromHsl(0, 0, $grayscaleLightness[1]);
+        $this->lightColor = Color::fromHslCompensated(
+            $hue, $style->getSaturation(), $colorLightness[1]);
+        $this->darkColor = Color::fromHslCompensated(
+            $hue, $style->getSaturation(), $colorLightness[0]);
     }
 
     /**

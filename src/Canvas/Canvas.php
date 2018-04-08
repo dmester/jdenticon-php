@@ -77,7 +77,7 @@ class Canvas
             $this->width, $this->height);
         
         $backColor = ColorUtils::parse($this->backColor);
-        if ($backColor > 0) {
+        if (ColorUtils::alpha($backColor) > 0) {
             $isColor = false;
             
             foreach ($colorRanges as & $value) {

@@ -22,7 +22,7 @@ class Rasterizer
      */
     const SAMPLES_PER_PIXEL_Y = 3;
 
-    const SAMPLE_HEIGHT = 1 / self::SAMPLES_PER_PIXEL_Y;
+    const SAMPLE_HEIGHT = 0.33333; //  1 / self::SAMPLES_PER_PIXEL_Y
     
     /**
      * Rasterizes the edges in the edge table to a list of color ranges. No 

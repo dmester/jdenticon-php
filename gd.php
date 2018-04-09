@@ -6,9 +6,13 @@
 
 include_once("vendor/autoload.php");
 
-use Jdenticon\Identicon;
 
-for ($i = 0; $i < 100; $i++)
-{
-    echo "<img src=\"icon.php?icon=icon$i\">";
-}
+
+use Jdenticon\Identicon;
+use Jdenticon\Rendering\GdRenderer2;
+
+$icon = Identicon::fromValue("Hej hej", 100);
+$icon->setRenderer(new GdRenderer2(100,100));
+$icon->displayImage();
+
+

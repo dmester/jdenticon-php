@@ -15,14 +15,26 @@ use Jdenticon\Rendering\SvgRenderer;
 class Identicon
 {
     /**
+     * @var mixed
+     */
+    private $value;
+    
+    /**
+     * @var boolean
+     */
+    private $valueSet = false;
+    
+    /**
+     * Defaults to hash of an empty string.
+     * 
      * @var string
      */
-    private $hash;
+    private $hash = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
     
     /**
      * @var integer
      */
-    private $size;
+    private $size = 100;
     
     /**
      * @var Jdenticon\Rendering\IconGenerator
@@ -42,13 +54,17 @@ class Identicon
      * @param int|float|double $size The size of the icon in pixels (the icon 
      *      is quadratic).
      */
-    public function __construct($hash, $size)
+    public function __construct($options = null)
     {
-        $this->setSize($size);
-        $this->setHash($hash);
-        
         $this->iconGenerator = IconGenerator::getDefaultGenerator();
-        $this->style = new IdenticonStyle();
+        
+        if ($options !== null) {
+            $this->setOptions($options);
+        }
+
+        if ($this->style === null) {
+            $this->style = new IdenticonStyle();
+        }
     }
     
     /**
@@ -61,7 +77,7 @@ class Identicon
      */
     public static function fromHash($hash, $size)
     {
-        return new Identicon($hash, $size);
+        return new Identicon(array('hash' => $hash, 'size' => $size));
     }
 
     /**
@@ -75,9 +91,70 @@ class Identicon
      */
     public static function fromValue($value, $size)
     {
-        return new Identicon(sha1(utf8_encode("$value")), $size);
+        return new Identicon(array('value' => $value, 'size' => $size));
     }
-
+    
+    /**
+     * Gets an associative array of all options of this identicon.
+     *
+     * @return array
+     */
+    public function getOptions() 
+    {
+        $options = array();
+        
+        if ($this->valueSet) {
+            $options['value'] = $this->getValue();
+        }
+        elseif ($this->hash !== null) {
+            $options['hash'] = $this->getHash();
+        }
+        
+        $options['size'] = $this->getSize();
+        $options['style'] = $this->getStyle()->getOptions();
+        
+        if ($this->iconGenerator !== IconGenerator::getDefaultGenerator()) {
+            $options['iconGenerator'] = $this->getIconGenerator();
+        }
+        
+        return $options;
+    }
+    
+    /**
+     * Sets options in this identicon by specifying an associative array of 
+     * option values.
+     *
+     * @param array $options Options to set.
+     * @return self
+     */
+    public function setOptions(array $options)
+    {
+        foreach ($options as $key => $value) {
+            switch (strtolower($key)) {
+                case 'size':
+                    $this->setSize($value);
+                    break;
+                case 'hash':
+                    $this->setHash($value);
+                    break;
+                case 'value':
+                    $this->setValue($value);
+                    break;
+                case 'style':
+                    $this->setStyle($value);
+                    break;
+                case 'icongenerator':
+                    $this->setIconGenerator($value);
+                    break;
+                default:
+                    throw new \InvalidArgumentException(
+                        "Unknown Identicon option '$key'.");
+            }
+        }
+        
+        return $this;
+    }
+    
     /** 
      * Gets the size of the icon in pixels.
      */
@@ -95,8 +172,8 @@ class Identicon
     {
         if (!is_numeric($size) || $size < 1) {
             throw new \InvalidArgumentException(
-                "setSize got an invalid size. A numeric value greater than or " .
-                "equal to 1 was expected. Actual value: $size.");
+                "An invalid identicon size was specified. ".
+                "A numeric value >= 1 was expected. Specified value: $size.");
         }
         
         $this->size = (int)$size;
@@ -140,37 +217,30 @@ class Identicon
     
     /**
      * Gets or sets the style of the icon.
-     * @param \Jdenticon\IdenticonStyle $style The new style of the icon. NULL 
-     *      will revert the identicon to use the default style.
-     * @return \Jdenticon\Identicon
+     *
+     * @param array|\Jdenticon\IdenticonStyle $style The new style of the icon. 
+     *      NULL will revert the identicon to use the default style.
+     * @return self
      */
-    public function setStyle(IdenticonStyle $style)
+    public function setStyle($style)
     {
         if ($style == null) {
-            $style = new IdenticonStyle();
+            $this->style = new IdenticonStyle();
         }
-        $this->style = $style;
+        elseif ($style instanceof IdenticonStyle) {
+            $this->style = $style;
+        }
+        elseif (is_array($style)) {
+            $this->style = new IdenticonStyle($style);
+        }
+        else {
+            throw new \InvalidArgumentException(
+                "Invalid indenticon style was specified. ".
+                "Allowed values are IdenticonStyle instances and associative ".
+                "arrays containing IdenticonStyle options.");
+        }
+        
         return $this;
-    }
-
-    /**
-     * Draws this icon using a specified renderer.
-     *
-     * This method is only intended for usage with custom renderers. A custom 
-     * renderer could as an example render an Identicon in a file format not 
-     * natively supported by Jdenticon. To implement a new file format, 
-     * implement {@see \Jdenticon\Rendering\RendererInterface}.
-     *
-     * @param \Jdenticon\Rendering\RendererInterface $renderer The renderer used 
-     *      to render this icon.
-     * @param \Jdenticon\Rendering\Rectangle $rect The bounds of the rendered 
-     *      icon. No padding will be applied to the rectangle.
-     */
-    public function draw(
-        \Jdenticon\Rendering\RendererInterface $renderer, 
-        \Jdenticon\Rendering\Rectangle $rect)
-    {
-        $this->iconGenerator->generate($renderer, $rect, $this->style, $this->hash);
     }
 
     /**
@@ -192,19 +262,44 @@ class Identicon
     {
         if (!is_string($hash)) {
             throw new \InvalidArgumentException(
-                "An invalid \$hash was passed to Identicon. " .
-                "A binary string was expected.");
+                'An invalid $hash was passed to Identicon. ' .
+                'A binary string was expected.');
         }
         if (strlen($hash) < 6) {
             throw new \InvalidArgumentException(
-                "An invalid \$hash was passed to Identicon. " . 
-                "The hash was expected to contain at least 6 bytes.");
+                'An invalid $hash was passed to Identicon. ' . 
+                'The hash was expected to contain at least 6 bytes.');
         }
         
         $this->hash = $hash;
+        $this->value = null;
+        $this->valueSet = false;
         return $this;
     }
-
+    
+    /**
+     * Gets a binary string containing the hash that is used as base for this 
+     * icon.
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+    
+    /**
+     * Sets a value that will be used as base for this icon. The value will
+     * be converted to a UTF8 encoded string and then hashed using SHA1.
+     *
+     * @param mixed $value Value that will be hashed.
+     */
+    public function setValue($value)
+    {
+        $this->hash = sha1(utf8_encode("$value"));
+        $this->value = $value;
+        $this->valueSet = true;
+        return $this;
+    }
+    
     /**
      * Gets the bounds of the icon excluding its padding.
      *
@@ -234,6 +329,27 @@ class Identicon
         }
     }
     
+    /**
+     * Draws this icon using a specified renderer.
+     *
+     * This method is only intended for usage with custom renderers. A custom 
+     * renderer could as an example render an Identicon in a file format not 
+     * natively supported by Jdenticon. To implement a new file format, 
+     * implement {@see \Jdenticon\Rendering\RendererInterface}.
+     *
+     * @param \Jdenticon\Rendering\RendererInterface $renderer The renderer used 
+     *      to render this icon.
+     * @param \Jdenticon\Rendering\Rectangle $rect The bounds of the rendered 
+     *      icon. No padding will be applied to the rectangle.
+     */
+    public function draw(
+        \Jdenticon\Rendering\RendererInterface $renderer, 
+        \Jdenticon\Rendering\Rectangle $rect)
+    {
+        $this->iconGenerator->generate(
+            $renderer, $rect, $this->style, $this->hash);
+    }
+
     /**
      * Renders the icon directly to the page output.
      *

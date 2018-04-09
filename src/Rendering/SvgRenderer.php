@@ -62,9 +62,9 @@ class SvgRenderer extends AbstractRenderer
     /**
      * Begins a new shape. The shape should be ended with a call to endShape.
      *
-     * @param \Jdenticon\Rendering\Color $color The color of the shape.
+     * @param \Jdenticon\Color $color The color of the shape.
      */
-    public function beginShape(Color $color)
+    public function beginShape(\Jdenticon\Color $color)
     {
         $colorString = $color->toHexString(6);
         

@@ -64,9 +64,9 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Sets the background color of the image.
      *
-     * @param string $color  The image background color.
+     * @param \Jdenticon\Color $color  The image background color.
      */
-    public function setBackgroundColor(Color $color)
+    public function setBackgroundColor(\Jdenticon\Color $color)
     {
         $this->backgroundColor = $color;
     }
@@ -74,7 +74,7 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Gets the background color of the image.
      *
-     * @return string
+     * @return \Jdenticon\Color
      */
     public function getBackgroundColor()
     {
@@ -91,9 +91,9 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Begins a new shape. The shape should be ended with a call to endShape.
      *
-     * @param string $color The color of the shape.
+     * @param \Jdenticon\Color $color The color of the shape.
      */
-    abstract public function beginShape(Color $color);
+    abstract public function beginShape(\Jdenticon\Color $color);
     
     /**
      * Ends the currently drawn shape.

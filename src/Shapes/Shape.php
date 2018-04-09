@@ -20,7 +20,7 @@ class Shape
     /**
      * The fill color of the shape.
      *
-     * @var Jdenticon\Rendering\Color
+     * @var Jdenticon\Color
      */
     public $color;
 
@@ -40,7 +40,7 @@ class Shape
     
     public function __construct(
         $definition, 
-        \Jdenticon\Rendering\Color $color, 
+        \Jdenticon\Color $color, 
         array $positions, 
         $startRotationIndex)
     {

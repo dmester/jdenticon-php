@@ -40,7 +40,7 @@ class ColorTheme
      * Gets a color from this color theme by index.
      *
      * @param int $index Color index in the range [0, getCount()).
-     * @return Jdenticon\Rendering\Color
+     * @return Jdenticon\Color
      */
     public function getByIndex($index)
     {

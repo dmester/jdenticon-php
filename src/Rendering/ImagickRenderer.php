@@ -59,9 +59,9 @@ class ImagickRenderer extends AbstractRenderer
     /**
      * Sets the background color of the icon.
      *
-     * @param \Jdenticon\Rendering\Color $color The background color.
+     * @param \Jdenticon\Color $color The background color.
      */
-    public function setBackgroundColor(Color $color)
+    public function setBackgroundColor(\Jdenticon\Color $color)
     {
         parent::setBackgroundColor($color);
         $this->svg->setBackgroundColor($color);
@@ -70,9 +70,9 @@ class ImagickRenderer extends AbstractRenderer
     /**
      * Begins a new shape. The shape should be ended with a call to endShape.
      *
-     * @param \Jdenticon\Rendering\Color $color The color of the shape.
+     * @param \Jdenticon\Color $color The color of the shape.
      */
-    public function beginShape(Color $color)
+    public function beginShape(\Jdenticon\Color $color)
     {
         $this->svg->beginShape($color);
     }

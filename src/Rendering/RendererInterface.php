@@ -26,14 +26,14 @@ interface RendererInterface
     /**
      * Sets the background color of the image.
      *
-     * @param \Jdenticon\Rendering\Color $color The image background color.
+     * @param \Jdenticon\Color $color The image background color.
      */
     public function setBackgroundColor(Color $color);
     
     /**
      * Gets the background color of the image.
      *
-     * @return \Jdenticon\Rendering\Color
+     * @return \Jdenticon\Color
      */
     public function getBackgroundColor();
     
@@ -47,7 +47,7 @@ interface RendererInterface
     /**
      * Begins a new shape. The shape should be ended with a call to endShape.
      *
-     * @param \Jdenticon\Rendering\Color $color The color of the shape.
+     * @param \Jdenticon\Color $color The color of the shape.
      */
     public function beginShape(Color $color);
     

@@ -37,6 +37,11 @@ class IdenticonStyle
      * @var array(float)
      */
     private $grayscaleLightness;
+
+    /** 
+     * @var array(integer)
+     */
+    private $hues;
     
     public function __construct(array $options = null)
     {
@@ -60,12 +65,18 @@ class IdenticonStyle
     public function getOptions()
     {
         $options = array();
+
         $options['backgroundColor'] = $this->getBackgroundColor()->__toString();
         $options['padding'] = $this->getPadding();
         $options['colorSaturation'] = $this->getColorSaturation();
         $options['grayscaleSaturation'] = $this->getGrayscaleSaturation();
         $options['colorLightness'] = $this->getColorLightness();
         $options['grayscaleLightness'] = $this->getGrayscaleLightness();
+
+        if ($this->hues !== null) {
+            $options['hues'] = $this->getHues();
+        }
+
         return $options;
     }
     
@@ -98,12 +109,73 @@ class IdenticonStyle
                 case 'grayscalelightness':
                     $this->setGrayscaleLightness($value);
                     break;
+                case 'hues':
+                    $this->setHues($value);
+                    break;
                 default:
                     throw new \InvalidArgumentException(
                         "Unknown IdenticonStyle option '$key'.");
             }
         }
         
+        return $this;
+    }
+    
+    /**
+     * Normalizes a hue to the first turn [0, 360).
+     * 
+     * @param mixed $hue
+     * @return integer
+     */
+    private static function normalizeHue($hue) 
+    {
+        if (!is_numeric($hue)) {
+            throw new \InvalidArgumentException(
+                "'$hue' is not a valid hue.");
+        }
+
+        $hue = $hue % 360;
+        if ($hue < 0) {
+            $hue += 360;
+        }
+
+        return $hue;
+    }
+    
+    /**
+     * Gets an array of allowed hues, or null if there are no restrictions.
+     *
+     * @return array(int)|null
+     */
+    public function getHues()
+    {
+        return $this->hues;
+    }
+
+    /**
+     * Sets the allowed hues of generated icons.
+     *
+     * @param array(integer)|integer|null $value A hue specified in degrees,
+     *      or an array of hues specified in degrees. If set to null, the hue
+     *      list is cleared.
+     * @return self
+     */
+    public function setHues($value)
+    {
+        $hues = array();
+
+        if ($value !== null) {
+            if (is_array($value)) {
+                foreach ($value as $hue) {
+                    $hues[] = self::normalizeHue($hue);
+                }
+            }
+            else {
+                $hues[] = self::normalizeHue($value);
+            }
+        }
+
+        $this->hues = empty($hues) ? null : $hues;
         return $this;
     }
     

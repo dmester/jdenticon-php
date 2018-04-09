@@ -87,7 +87,7 @@ class LayerManager
                 }
                 break;
             }
-            else if ($layer->polygonId < $edge->polygonId) {
+            elseif ($layer->polygonId < $edge->polygonId) {
                 // Insert here
                 $newLayer = new Layer(
                     $edge->polygonId,

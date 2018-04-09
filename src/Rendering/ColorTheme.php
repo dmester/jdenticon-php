@@ -25,6 +25,14 @@ class ColorTheme
     {
         $grayscaleLightness = $style->getGrayscaleLightness();
         $colorLightness = $style->getColorLightness();
+        $hues = $style->getHues();
+
+        if ($hues !== null) {
+            // $hue is in the range [0, 1]
+            // Multiply with 0.999 to change the range to [0, 1)
+            $hueIndex = (int)($hue * 0.999 * count($hues));
+            $hue = (float)$hues[$hueIndex] / 360;
+        }
         
         $this->darkGray = Color::fromHslCompensated(
             $hue, $style->getGrayscaleSaturation(), $grayscaleLightness[0]);

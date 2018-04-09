@@ -99,7 +99,7 @@ class ColorUtils
         if ($weight < 0) {
             $weight = 0;
         }
-        else if ($weight > 1) {
+        elseif ($weight > 1) {
             $weight = 1;
         }
         
@@ -191,7 +191,7 @@ class ColorUtils
         if ($foreA < 1) {
             return $back;
         }
-        else if ($foreA > 254 || $backA < 1) {
+        elseif ($foreA > 254 || $backA < 1) {
             return $fore;
         }
 

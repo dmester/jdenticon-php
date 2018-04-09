@@ -16,6 +16,7 @@ $icon = new Identicon(array(
     'style' => array(
         'backgroundColor' => 'rgb(155, 214, 44, 1)',
         'colorSaturation' => 1.0,
+        'hues' => array(),
         'padding' => 0,
         'grayscaleSaturation' => 1.0,
         'colorLightness' => array(0.4, 0.8),

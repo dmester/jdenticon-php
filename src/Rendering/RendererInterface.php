@@ -1,6 +1,8 @@
 <?php
 namespace Jdenticon\Rendering;
 
+use Jdenticon\Color;
+
 /**
  * Interface for an identicon renderer.
  */

@@ -147,8 +147,7 @@ class ColorUtils
 
         if (preg_match('/^#?[0-9a-fA-F]+$/', $color)) {
             $hexColor = $color; 
-            if ($hexColor[0] == '#') 
-            {
+            if ($hexColor[0] == '#') {
                 $hexColor = substr($hexColor, 1);
             }
 

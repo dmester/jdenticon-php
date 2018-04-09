@@ -1,6 +1,8 @@
 <?php
 namespace Jdenticon\Rendering;
 
+use Jdenticon\Color;
+
 /**
  * Specifies the colors to be used in an identicon.
  */

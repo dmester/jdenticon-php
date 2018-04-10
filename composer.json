@@ -16,7 +16,6 @@
         "php": "^5.5 || ^7.0"
     },
     "require-dev": {
-        "phpmd/phpmd" : "@stable",
         "phpunit/phpunit": "7"
     },
     "scripts": {

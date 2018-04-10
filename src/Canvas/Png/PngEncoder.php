@@ -74,8 +74,7 @@ class PngEncoder
         foreach ($colorRanges as $value) {
             if ($count === -1) {
                 $count = $value;
-            }
-            else {
+            } else {
                 if ($count !== 0) {
                     if ($x === $width) {
                         $x = 0;
@@ -120,12 +119,10 @@ class PngEncoder
         $count = -1;
         $x = 0;
 
-        foreach ($colorRanges as $value)
-        {
+        foreach ($colorRanges as $value) {
             if ($count === -1) {
                 $count = $value;
-            }
-            else {
+            } else {
                 if ($count !== 0) {
                     if ($x === $width) {
                         $x = 0;

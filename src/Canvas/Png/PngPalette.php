@@ -26,8 +26,7 @@ class PngPalette
         foreach ($colorRanges as $value) {
             if ($count === -1) {
                 $count = $value;
-            }
-            else {
+            } else {
                 // Ignore empty ranges and already indexed colors
                 if ($count > 0 && !isset($lookup[$value])) {
                     if (!$hasAlphaChannel && ($value & 0xff) < 255) {

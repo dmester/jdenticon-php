@@ -84,8 +84,7 @@ class Canvas
                 if ($isColor) {
                     $value = ColorUtils::over($value, $backColor);
                     $isColor = false;
-                }
-                else {
+                } else {
                     $isColor = true;
                 }
             }
@@ -110,8 +109,7 @@ class Canvas
             $png->writeTransparency($palette);
             $png->writeIndexed($colorRanges, $palette, 
                 $this->width, $this->height);
-        }
-        else {
+        } else {
             $png->writeTrueColorWithAlpha($colorRanges, 
                 $this->width, $this->height);
         }

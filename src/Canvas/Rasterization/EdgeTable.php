@@ -64,12 +64,10 @@ class EdgeTable
         if ($edge->y0 == $edge->y1) {
             // Skip horizontal lines
             return;
-        }
-        elseif ($edge->y0 < $edge->y1) {
+        } elseif ($edge->y0 < $edge->y1) {
             $minY = (int)($edge->y0);
             $maxY = (int)($edge->y1 + 0.996 /* 1/255 */);
-        }
-        else {
+        } else {
             $minY = (int)($edge->y1);
             $maxY = (int)($edge->y0 + 0.996 /* 1/255 */);
         }
@@ -97,8 +95,7 @@ class EdgeTable
                 if ($x1 < $x2) {
                     $fromX = (int)($x1);
                     $width = (int)($x2 + 0.9999) - $fromX;
-                }
-                else {
+                } else {
                     $fromX = (int)($x2);
                     $width = (int)($x1 + 0.9999) - $fromX;
                 }

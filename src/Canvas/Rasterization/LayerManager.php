@@ -86,8 +86,7 @@ class LayerManager
                     }
                 }
                 break;
-            }
-            elseif ($layer->polygonId < $edge->polygonId) {
+            } elseif ($layer->polygonId < $edge->polygonId) {
                 // Insert here
                 $newLayer = new Layer(
                     $edge->polygonId,
@@ -99,8 +98,7 @@ class LayerManager
                 
                 if ($previousLayer === null) {
                     $this->topLayer = $newLayer;
-                }
-                else {
+                } else {
                     $previousLayer->nextLayer = $newLayer;
                 }
                 break;
@@ -120,8 +118,7 @@ class LayerManager
             
             if ($previousLayer === null) {
                 $this->topLayer = $newLayer;
-            }
-            else {
+            } else {
                 $previousLayer->nextLayer = $newLayer;
             }
         }

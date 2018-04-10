@@ -108,8 +108,7 @@ abstract class AbstractRenderer implements RendererInterface
                 $this->transform->transformPoint($point->x, $point->y);
         }
         
-        if ($invert)
-        {
+        if ($invert) {
             $transformedPoints = array_reverse($transformedPoints);
         }
         

@@ -83,12 +83,10 @@ class Color
         if ($saturation == 0) {
             $value = (int)($lightness * 255);
             return self::fromRgb($value, $value, $value, (int)($alpha * 255));
-        }
-        else {
+        } else {
             if ($lightness <= 0.5) {
                 $m2 = $lightness * ($saturation + 1);
-            }
-            else {
+            } else {
                 $m2 = $lightness + $saturation - $lightness * $saturation;
             }
             
@@ -131,21 +129,17 @@ class Color
     {
         if ($h < 0) {
             $h = $h + 6;
-        }
-        elseif ($h > 6) {
+        } elseif ($h > 6) {
             $h = $h - 6;
         }
         
         if ($h < 1) {
             $r = $m1 + ($m2 - $m1) * $h;
-        }
-        elseif ($h < 3) {
+        } elseif ($h < 3) {
             $r = $m2;
-        }
-        elseif ($h < 4) {
+        } elseif ($h < 4) {
             $r = $m1 + ($m2 - $m1) * (4 - $h);
-        }
-        else {
+        } else {
             $r = $m1;
         }
         
@@ -273,7 +267,8 @@ class Color
     private static function parseAlpha($input, &$result)
     {
         if ($input === null ||
-            $input === '') {
+            $input === ''
+        ) {
             $result = 1;
             return true;
         }

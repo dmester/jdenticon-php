@@ -105,8 +105,7 @@ class Identicon
         
         if ($this->valueSet) {
             $options['value'] = $this->getValue();
-        }
-        elseif ($this->hash !== null) {
+        } elseif ($this->hash !== null) {
             $options['hash'] = $this->getHash();
         }
         
@@ -198,7 +197,7 @@ class Identicon
      */
     public function setIconGenerator(IconGenerator $iconGenerator)
     {
-        if ($iconGenerator == null) {
+        if ($iconGenerator === null) {
             $iconGenerator = IconGenerator::getDefaultGenerator();
         }
         $this->iconGenerator = $iconGenerator;
@@ -226,14 +225,11 @@ class Identicon
     {
         if ($style == null) {
             $this->style = new IdenticonStyle();
-        }
-        elseif ($style instanceof IdenticonStyle) {
+        } elseif ($style instanceof IdenticonStyle) {
             $this->style = $style;
-        }
-        elseif (is_array($style)) {
+        } elseif (is_array($style)) {
             $this->style = new IdenticonStyle($style);
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException(
                 "Invalid indenticon style was specified. ".
                 "Allowed values are IdenticonStyle instances and associative ".

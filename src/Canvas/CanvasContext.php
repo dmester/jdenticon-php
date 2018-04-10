@@ -81,7 +81,8 @@ class CanvasContext
             gettype($c) != 'integer' ||
             gettype($d) != 'integer' ||
             gettype($e) != 'integer' ||
-            gettype($f) != 'integer') {
+            gettype($f) != 'integer'
+        ) {
             return;
         }
 
@@ -98,7 +99,8 @@ class CanvasContext
             gettype($c) != 'integer' ||
             gettype($d) != 'integer' ||
             gettype($e) != 'integer' ||
-            gettype($f) != 'integer') {
+            gettype($f) != 'integer'
+        ) {
             return;
         }
 
@@ -238,20 +240,17 @@ class CanvasContext
 
             if ($startAngle - $endAngle >= M_PI * 2) {
                 $endAngle = $startAngle - M_PI * 2;
-            }
-            else {
+            } else {
                 // Normalize end angle so that the sweep angle is in the range 
                 // (0, -2PI]
                 $endAngle += 
                     M_PI * 2 * ceil(($startAngle - $endAngle) / 
                     (M_PI * 2) - 1);
             }
-        }
-        else {
+        } else {
             if ($endAngle - $startAngle >= M_PI * 2) {
                 $endAngle = $startAngle + M_PI * 2;
-            }
-            else {
+            } else {
                 // Normalize end angle so that the sweep angle is in the range 
                 // (0, 2PI]
                 $endAngle -= 
@@ -307,8 +306,7 @@ class CanvasContext
 
         if ($fullCanvas) {
             $this->edges->clear();
-        }
-        else {
+        } else {
             $this->_fillRect(ColorUtils::FORCE_TRANSPARENT, 
                 $x, $y, $width, $height);
         }

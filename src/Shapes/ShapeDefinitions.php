@@ -97,12 +97,10 @@ class ShapeDefinitions
                 if ($tmp > 1) {
                     // large icon => truncate decimals
                     $inner = (int)$tmp;
-                }
-                elseif ($tmp > 0.5) {
+                } elseif ($tmp > 0.5) {
                     // medium size icon => fixed width
                     $inner = 1;
-                }
-                else {
+                } else {
                     // small icon => anti-aliased border
                     $inner = $tmp;
                 }
@@ -111,11 +109,9 @@ class ShapeDefinitions
                 // the border is drawn
                 if ($cell < 6) {
                     $outer = 1;
-                }
-                elseif ($cell < 8) {
+                } elseif ($cell < 8) {
                     $outer = 2;
-                }
-                else {
+                } else {
                     $outer = (int)($cell / 4);
                 }
 
@@ -176,8 +172,7 @@ class ShapeDefinitions
                 if ($cell < 8) {
                      // small icon => anti-aliased border
                      $inner = $tmp;
-                }
-                else {
+                } else {
                      // large icon => truncate decimals
                      $inner = (int)$tmp;
                 }
@@ -186,11 +181,9 @@ class ShapeDefinitions
                 // the border is drawn
                 if ($cell < 4) {
                      $outer = 1;
-                }
-                elseif ($cell < 6) {
+                } elseif ($cell < 6) {
                      $outer = 2;
-                }
-                else {
+                } else {
                      $outer = (int)($cell * 0.35);
                 }
 
@@ -226,8 +219,7 @@ class ShapeDefinitions
                 $m = $cell * 0.4;
                 $s = $cell * 1.2;
 
-                if ($index != 0)
-                {
+                if ($index != 0) {
                     $renderer->addCircle($m, $m, $s);
                 }
             }

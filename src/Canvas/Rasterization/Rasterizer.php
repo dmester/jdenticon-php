@@ -93,8 +93,7 @@ class Rasterizer
                     if ($xey < $xey1) {
                         $x0 = $xey;
                         $x1 = $xey1;
-                    }
-                    else {
+                    } else {
                         $x0 = $xey1;
                         $x1 = $xey;
                     }
@@ -106,8 +105,7 @@ class Rasterizer
                         $fromColor = $subScanlineLayers->color;
                         $subScanlineLayers->add($edge);
                         $toColor = $subScanlineLayers->color;
-                    }
-                    else {
+                    } else {
                         $fromColorR = 0; 
                         $fromColorG = 0; 
                         $fromColorB = 0; 
@@ -257,8 +255,7 @@ class Rasterizer
                         $colorData[] = $count;
                         $colorData[] = $color;
                     }
-                }
-                else {
+                } else {
                     $count = $width - $superSampleRange->toXExcl;
                     if ($count > 0) {
                         $colorData[] = $count;
@@ -354,8 +351,7 @@ class Rasterizer
                         $range->fromX + $range->width);
                     $superSampleRange->edges[] = $range->edge;
                     $rangeIndex++;
-                }
-                else {
+                } else {
                     break;
                 }
             }

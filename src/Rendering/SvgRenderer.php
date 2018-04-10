@@ -70,8 +70,7 @@ class SvgRenderer extends AbstractRenderer
         
         if (isset($this->pathsByColor[$colorString])) {
             $this->path = $this->pathsByColor[$colorString];
-        }
-        else {
+        } else {
             $this->path = new SvgPath();
             $this->pathsByColor[$colorString] = $this->path;
         }

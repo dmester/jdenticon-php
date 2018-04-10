@@ -169,8 +169,7 @@ class IdenticonStyle
                 foreach ($value as $hue) {
                     $hues[] = self::normalizeHue($hue);
                 }
-            }
-            else {
+            } else {
                 $hues[] = self::normalizeHue($value);
             }
         }
@@ -226,8 +225,7 @@ class IdenticonStyle
     {
         if ($value instanceof Color) {
             $this->backgroundColor = $value;
-        }
-        else {
+        } else {
             $this->backgroundColor = Color::parse($value);
         }
         

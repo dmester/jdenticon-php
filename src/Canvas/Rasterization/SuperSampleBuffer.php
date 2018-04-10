@@ -89,12 +89,12 @@ class SuperSampleBuffer
         $sampleCount = $this->samples[$index * 5 + self::IDX_COUNT];
         $alphaSum = $this->samples[$index * 5 + self::IDX_A];
         return $sampleCount == 0 || $alphaSum == 0 ? 0 :
-                ColorUtils::from(
-                    (int)($alphaSum / $sampleCount),
-                    (int)($this->samples[$index * 5 + self::IDX_R] / $alphaSum),
-                    (int)($this->samples[$index * 5 + self::IDX_G] / $alphaSum),
-                    (int)($this->samples[$index * 5 + self::IDX_B] / $alphaSum)
-                );
+            ColorUtils::from(
+                (int)($alphaSum / $sampleCount),
+                (int)($this->samples[$index * 5 + self::IDX_R] / $alphaSum),
+                (int)($this->samples[$index * 5 + self::IDX_G] / $alphaSum),
+                (int)($this->samples[$index * 5 + self::IDX_B] / $alphaSum)
+            );
     }
 
     /**
@@ -105,8 +105,7 @@ class SuperSampleBuffer
      */
     private function _add($count, $a, $r, $g, $b) 
     {
-        if ($this->used < $this->pixelOffset)
-        {
+        if ($this->used < $this->pixelOffset) {
             $this->used = $this->pixelOffset;
             
             $this->samples[$this->pixelOffset * 5 + self::IDX_COUNT] = $count;
@@ -114,13 +113,10 @@ class SuperSampleBuffer
             $this->samples[$this->pixelOffset * 5 + self::IDX_R] = $a * $r * $count;
             $this->samples[$this->pixelOffset * 5 + self::IDX_G] = $a * $g * $count;
             $this->samples[$this->pixelOffset * 5 + self::IDX_B] = $a * $b * $count;
-        }
-        else 
-        {
+        } else {
             $this->samples[$this->pixelOffset * 5 + self::IDX_COUNT] += $count;
 
-            if ($a > 0) 
-            {
+            if ($a > 0) {
                 $this->samples[$this->pixelOffset * 5 + self::IDX_A] += $a * $count;
                 $this->samples[$this->pixelOffset * 5 + self::IDX_R] += $a * $r * $count;
                 $this->samples[$this->pixelOffset * 5 + self::IDX_G] += $a * $g * $count;
@@ -134,7 +130,7 @@ class SuperSampleBuffer
      *
      * @param integer $color Color to write.
      * @param float $untilX Samples of the color will be added the buffer until 
-            the cursor reaches this coordinate.
+     *      the cursor reaches this coordinate.
      */
     public function add($color, $untilX) 
     {

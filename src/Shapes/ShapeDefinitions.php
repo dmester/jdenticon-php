@@ -129,11 +129,16 @@ class ShapeDefinitions
             {
                 $inner = $cell * 0.1;
                 $outer = $inner * 4;
+                
+                // Align edge to nearest pixel in large icons
+                if ($outer > 3) {
+                    $outer = (int)$outer;
+                }
 
                 $renderer->addRectangle(0, 0, $cell, $cell);
                 $renderer->addPolygon(array(
-                    new Point($outer, (int)$outer),
-                    new Point($cell - $inner, (int)$outer),
+                    new Point($outer, $outer),
+                    new Point($cell - $inner, $outer),
                     new Point($outer + ($cell - $outer - $inner) / 2, 
                         $cell - $inner)
                 ), true);

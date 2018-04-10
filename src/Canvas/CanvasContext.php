@@ -222,11 +222,11 @@ class CanvasContext
      */
     public function arc($x, $y, $radius, $startAngle, $endAngle, $anticlockwise) 
     {
-        $ARC_LENGTH_PIXELS = 3;
+        $TARGET_CHORD_LENGTH_PIXELS = 3;
         
-        $sectors = floor((M_PI * $radius * 2) / $ARC_LENGTH_PIXELS);
-        if ($sectors < 4) {
-            $sectors = 4;
+        $sectors = floor((M_PI * $radius * 2) / $TARGET_CHORD_LENGTH_PIXELS);
+        if ($sectors < 9) {
+            $sectors = 9;
         }
         
         $sectorAngle = M_PI * 2 / $sectors;

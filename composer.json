@@ -20,7 +20,7 @@
     "homepage": "https://jdenticon.com/",
     "autoload": {
         "psr-4": {
-            "Jdenticon": "src/"
+            "Jdenticon\\": "src/"
         }
     },
     "require": {

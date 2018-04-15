@@ -17,7 +17,7 @@ final class IdenticonTest extends TestCase
     public function testSetValue(): void
     {
         $icon = new Identicon();
-        $icon->setValue(14.6);
+        $icon->value = 14.6;
         $this->assertEquals(14.6, $icon->getValue());
         $this->assertEquals('4dbe74c9e554e745b1e199bcb0e19607a44e3a2f', $icon->getHash());
 
@@ -28,7 +28,7 @@ final class IdenticonTest extends TestCase
     public function testSetHash(): void
     {
         $icon = new Identicon();
-        $icon->setHash('4dbe74c9e554e745b1e199bcb0e19607a44e3a2f');
+        $icon->hash = '4dbe74c9e554e745b1e199bcb0e19607a44e3a2f';
         $this->assertEquals(null, $icon->getValue());
         $this->assertEquals('4dbe74c9e554e745b1e199bcb0e19607a44e3a2f', $icon->getHash());
 
@@ -59,7 +59,7 @@ final class IdenticonTest extends TestCase
     public function testGetIconGenerator(): void
     {
         $icon = new Identicon();
-        $icon->setIconGenerator(new AnotherIconGenerator());
+        $icon->iconGenerator = new AnotherIconGenerator();
         $this->assertNotNull($icon->getIconGenerator());
         $this->assertNotNull($icon->getOptions()['iconGenerator']);
     }
@@ -67,24 +67,24 @@ final class IdenticonTest extends TestCase
     public function testSetStyleNull(): void
     {
         $icon = new Identicon();
-        $icon->setStyle(null);
+        $icon->style = null;
         $this->assertEquals(new IdenticonStyle(), $icon->getStyle());
     }
     public function testSetStyleArray(): void
     {
         $icon = new Identicon();
-        $icon->setStyle([
+        $icon->style = [
             'backgroundcolor' => '#abcd'
-        ]);
+        ];
         $this->assertEquals('#aabbccdd', $icon->getStyle()->getBackgroundColor()->__toString());
     }
     public function testSetStyleInstance(): void
     {
         $style = new IdenticonStyle();
-        $style->setBackgroundColor('#abcd');
+        $style->backgroundColor = '#abcd';
         $icon = new Identicon();
-        $icon->setStyle($style);
-        $style->setBackgroundColor('#abce');
+        $icon->style = $style;
+        $style->backgroundColor = '#abce';
         $this->assertEquals('#aabbccee', $icon->getStyle()->getBackgroundColor()->__toString());
     }
 

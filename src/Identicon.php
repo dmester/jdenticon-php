@@ -303,13 +303,13 @@ class Identicon
      */
     public function getIconBounds() 
     {
-        $padding = $this->style->getPadding();
+        // Round padding to nearest integer
+        $padding = (int)($this->style->getPadding() * $this->size + 0.5);
         
         return new Rectangle(
-            (int)($padding * $this->size),
-            (int)($padding * $this->size),
-            $this->size - (int)($padding * $this->size) * 2,
-            $this->size - (int)($padding * $this->size) * 2);
+            $padding, $padding,
+            $this->size - $padding * 2,
+            $this->size - $padding * 2);
     }
     
     private function getRenderer($imageFormat) 

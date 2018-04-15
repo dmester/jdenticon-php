@@ -81,25 +81,6 @@ abstract class AbstractRenderer implements RendererInterface
         return $this->backgroundColor;
     }
     
-    /**
-     * Gets the MIME type of the renderer output.
-     *
-     * @return string
-     */
-    abstract public function getMimeType();
-    
-    /**
-     * Begins a new shape. The shape should be ended with a call to endShape.
-     *
-     * @param \Jdenticon\Color $color The color of the shape.
-     */
-    abstract public function beginShape(\Jdenticon\Color $color);
-    
-    /**
-     * Ends the currently drawn shape.
-     */
-    abstract public function endShape();
-
     private function addPolygonCore(array $points, $invert)
     {
         $transformedPoints = array();
@@ -215,11 +196,4 @@ abstract class AbstractRenderer implements RendererInterface
             new Point($x, $y + $height / 2),
         ), $invert);
     }
-    
-    /**
-     * Gets the output from the renderer.
-     *
-     * @return string
-     */
-    abstract public function getData();
 }

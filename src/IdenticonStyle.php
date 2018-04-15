@@ -90,35 +90,62 @@ class IdenticonStyle
     public function setOptions(array $options)
     {
         foreach ($options as $key => $value) {
-            switch (strtolower($key)) {
-                case 'backgroundcolor':
-                    $this->setBackgroundColor($value);
-                    break;
-                case 'padding':
-                    $this->setPadding($value);
-                    break;
-                case 'colorsaturation':
-                    $this->setColorSaturation($value);
-                    break;
-                case 'grayscalesaturation':
-                    $this->setGrayscaleSaturation($value);
-                    break;
-                case 'colorlightness':
-                    $this->setColorLightness($value);
-                    break;
-                case 'grayscalelightness':
-                    $this->setGrayscaleLightness($value);
-                    break;
-                case 'hues':
-                    $this->setHues($value);
-                    break;
-                default:
-                    throw new \InvalidArgumentException(
-                        "Unknown IdenticonStyle option '$key'.");
-            }
+            $this->__set($key, $value);
         }
-        
         return $this;
+    }
+    
+    public function __get($name)
+    {
+        switch (strtolower($name)) {
+            case 'backgroundcolor':
+                return $this->getBackgroundColor();
+            case 'padding':
+                return $this->getPadding();
+            case 'colorsaturation':
+                return $this->getColorSaturation();
+            case 'grayscalesaturation':
+                return $this->getGrayscaleSaturation();
+            case 'colorlightness':
+                return $this->getColorLightness();
+            case 'grayscalelightness':
+                return $this->getGrayscaleLightness();
+            case 'hues':
+                return $this->getHues();
+            default:
+                throw new \InvalidArgumentException(
+                    "Unknown IdenticonStyle option '$name'.");
+        }
+    }
+    
+    public function __set($name, $value)
+    {
+        switch (strtolower($name)) {
+            case 'backgroundcolor':
+                $this->setBackgroundColor($value);
+                break;
+            case 'padding':
+                $this->setPadding($value);
+                break;
+            case 'colorsaturation':
+                $this->setColorSaturation($value);
+                break;
+            case 'grayscalesaturation':
+                $this->setGrayscaleSaturation($value);
+                break;
+            case 'colorlightness':
+                $this->setColorLightness($value);
+                break;
+            case 'grayscalelightness':
+                $this->setGrayscaleLightness($value);
+                break;
+            case 'hues':
+                $this->setHues($value);
+                break;
+            default:
+                throw new \InvalidArgumentException(
+                    "Unknown IdenticonStyle option '$name'.");
+        }
     }
     
     /**

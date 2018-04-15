@@ -129,29 +129,52 @@ class Identicon
     public function setOptions(array $options)
     {
         foreach ($options as $key => $value) {
-            switch (strtolower($key)) {
-                case 'size':
-                    $this->setSize($value);
-                    break;
-                case 'hash':
-                    $this->setHash($value);
-                    break;
-                case 'value':
-                    $this->setValue($value);
-                    break;
-                case 'style':
-                    $this->setStyle($value);
-                    break;
-                case 'icongenerator':
-                    $this->setIconGenerator($value);
-                    break;
-                default:
-                    throw new \InvalidArgumentException(
-                        "Unknown Identicon option '$key'.");
-            }
+            $this->__set($key, $value);
         }
-        
         return $this;
+    }
+    
+    public function __get($name)
+    {
+        switch (strtolower($name)) {
+            case 'size':
+                return $this->getSize();
+            case 'hash':
+                return $this->getHash();
+            case 'value':
+                return $this->getValue();
+            case 'style':
+                return $this->getStyle();
+            case 'icongenerator':
+                return $this->getIconGenerator();
+            default:
+                throw new \InvalidArgumentException(
+                    "Unknown Identicon option '$name'.");
+        }
+    }
+    
+    public function __set($name, $value)
+    {
+        switch (strtolower($name)) {
+            case 'size':
+                $this->setSize($value);
+                break;
+            case 'hash':
+                $this->setHash($value);
+                break;
+            case 'value':
+                $this->setValue($value);
+                break;
+            case 'style':
+                $this->setStyle($value);
+                break;
+            case 'icongenerator':
+                $this->setIconGenerator($value);
+                break;
+            default:
+                throw new \InvalidArgumentException(
+                    "Unknown Identicon option '$name'.");
+        }
     }
     
     /** 

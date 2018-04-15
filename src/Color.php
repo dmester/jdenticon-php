@@ -378,47 +378,50 @@ class Color
             $input = substr($input, 1);
         }
 
-        $numeric = intval($input, 16);
+        // intval does not support unsigned 32-bit integers
+        // so we need to parse large numbers stepwise
+        $numeric24bit = intval(substr($input, 0, 6), 16);
+        $alpha8bit = intval(substr($input, 6, 2), 16);
 
         switch (strlen($input)) {
             case 3:
                 $result = self::fromRgb(
-                    (($numeric & 0xf00) >> 8) |
-                    (($numeric & 0xf00) >> 4),
-                    (($numeric & 0x0f0) >> 4) |
-                    (($numeric & 0x0f0)),
-                    (($numeric & 0x00f) << 4) |
-                    (($numeric & 0x00f))
+                    (($numeric24bit & 0xf00) >> 8) |
+                    (($numeric24bit & 0xf00) >> 4),
+                    (($numeric24bit & 0x0f0) >> 4) |
+                    (($numeric24bit & 0x0f0)),
+                    (($numeric24bit & 0x00f) << 4) |
+                    (($numeric24bit & 0x00f))
                     );
                 return true;
                 
             case 4:
                 $result = self::fromRgb(
-                    (($numeric & 0xf000) >> 12) |
-                    (($numeric & 0xf000) >> 8),
-                    (($numeric & 0x0f00) >> 8) |
-                    (($numeric & 0x0f00) >> 4),
-                    (($numeric & 0x00f0) >> 4) |
-                    (($numeric & 0x00f0)),
-                    (($numeric & 0x000f) << 4) |
-                    (($numeric & 0x000f))
+                    (($numeric24bit & 0xf000) >> 12) |
+                    (($numeric24bit & 0xf000) >> 8),
+                    (($numeric24bit & 0x0f00) >> 8) |
+                    (($numeric24bit & 0x0f00) >> 4),
+                    (($numeric24bit & 0x00f0) >> 4) |
+                    (($numeric24bit & 0x00f0)),
+                    (($numeric24bit & 0x000f) << 4) |
+                    (($numeric24bit & 0x000f))
                     );
                 return true;
                 
             case 6:
                 $result = self::fromRgb(
-                    0xff & ($numeric >> 16),
-                    0xff & ($numeric >> 8),
-                    0xff & ($numeric)
+                    0xff & ($numeric24bit >> 16),
+                    0xff & ($numeric24bit >> 8),
+                    0xff & ($numeric24bit)
                     );
                 return true;
                 
             case 8:
                 $result = self::fromRgb(
-                    0xff & ($numeric >> 24),
-                    0xff & ($numeric >> 16),
-                    0xff & ($numeric >> 8),
-                    0xff & ($numeric)
+                    0xff & ($numeric24bit >> 16),
+                    0xff & ($numeric24bit >> 8),
+                    0xff & ($numeric24bit),
+                    0xff & ($alpha8bit)
                     );
                 return true;
         }

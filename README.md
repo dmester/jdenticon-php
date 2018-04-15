@@ -45,7 +45,7 @@ $icon->displayImage('png');
 ```
 
 ### 3. Use icon.php
-Open up your favourite browser and navigate to http://localhost:<port>/icon.php?size=100&value=anything. 
+Open up your favourite browser and navigate to http://localhost:PORT/icon.php?size=100&value=anything. 
 An identicon should be displayed. Try to change the url parameters to see the difference in the generated icon.
 
 ## Other resources

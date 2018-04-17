@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Jdenticon\Identicon;
 use Jdenticon\IdenticonStyle;
 use Jdenticon\Rendering\IconGenerator;
+use Jdenticon\Rendering\InternalPngRenderer;
 
 final class RenderingTest extends TestCase
 {
@@ -68,22 +69,27 @@ final class RenderingTest extends TestCase
         $this->performTest($icon, 73);
     }
 
+    private static function formatDataUri($imageFormat, $data) 
+    {
+        $mimeType = $imageFormat == 'png' ? 'image/png' : 'image/svg+xml';
+        $base64 = base64_encode($data);
+        return "data:$mimeType;base64,$base64";
+    }
+
     private function performTest($icon, $number)
     {
-        $actual = $icon->getImageData('png');
-        $expected = file_get_contents(__DIR__ ."/$number.png");
+        $renderer = new InternalPngRenderer($icon->size, $icon->size);
+        $icon->draw($renderer, $icon->getIconBounds());
+     
+        // Format as data uri so that we can easily investigate failing rendering tests
+        $actual = self::formatDataUri('png', $renderer->getData());
+        $expected = self::formatDataUri('png', file_get_contents(__DIR__ ."/$number.png"));
 
-        if ($expected !== $actual) {
-            file_put_contents(__DIR__ ."/$number-actual.png", $actual);
-        }
         $this->assertEquals($expected, $actual, "PNG rendering test for icon '$number'.");
 
-        $actual = $icon->getImageData('svg');
-        $expected = file_get_contents(__DIR__ ."/$number.svg");
+        $actual = $icon->getImageDataUri('svg');
+        $expected = self::formatDataUri('svg', file_get_contents(__DIR__ ."/$number.svg"));
 
-        if ($expected !== $actual) {
-            file_put_contents(__DIR__ ."/$number-actual.svg", $actual);
-        }
         $this->assertEquals($expected, $actual, "SVG rendering test for icon '$number'.");
     }
 

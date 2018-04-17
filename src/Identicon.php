@@ -347,8 +347,7 @@ class Identicon
     
     private function getRenderer($imageFormat) 
     {
-        switch (strtolower($imageFormat))
-        {
+        switch (strtolower($imageFormat)) {
             case 'svg':
                 return new SvgRenderer($this->size, $this->size);
             default:

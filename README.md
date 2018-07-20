@@ -7,7 +7,6 @@ PHP library for generating highly recognizable identicons.
 Jdenticon-php is a PHP port of the JavaScript library [Jdenticon](https://github.com/dmester/jdenticon).
 
 * Renders identicons as PNG or SVG with no extension requirements.
-* Support for ImageMagick for improved performance.
 * Runs on PHP 5.3 and later.
 
 ## Live demo

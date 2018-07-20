@@ -368,13 +368,13 @@ class Identicon
     
     /**
      * Sets a value that will be used as base for this icon. The value will
-     * be converted to a UTF8 encoded string and then hashed using SHA1.
+     * be converted to a string and then hashed using SHA1.
      *
      * @param mixed $value Value that will be hashed.
      */
     public function setValue($value)
     {
-        $this->hash = sha1(utf8_encode("$value"));
+        $this->hash = sha1("$value");
         $this->value = $value;
         $this->valueSet = true;
         return $this;

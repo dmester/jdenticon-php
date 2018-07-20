@@ -57,6 +57,11 @@ class Identicon
     private $style;
 
     /**
+     * @var bool
+     */
+    private $enableImageMagick = false;
+
+    /**
      * Creates an Identicon instance with the specified hash.
      *
      * @param string $hash A binary string containing the hash that will be used 
@@ -157,6 +162,8 @@ class Identicon
                 return $this->getStyle();
             case 'icongenerator':
                 return $this->getIconGenerator();
+            case 'enableimagemagick':
+                return $this->getEnableImageMagick();
             default:
                 throw new \InvalidArgumentException(
                     "Unknown Identicon option '$name'.");
@@ -180,6 +187,9 @@ class Identicon
                 break;
             case 'icongenerator':
                 $this->setIconGenerator($value);
+                break;
+            case 'enableimagemagick':
+                $this->setEnableImageMagick($value);
                 break;
             default:
                 throw new \InvalidArgumentException(
@@ -209,6 +219,47 @@ class Identicon
         }
         
         $this->size = (int)$size;
+    }
+
+    /** 
+     * Gets the size of the icon in pixels.
+     */
+    public function getEnableImageMagick()
+    {
+        return $this->enableImageMagick;
+    }
+    
+    /**
+     * Sets whether ImageMagick should be used to generate PNG icons.
+     *
+     * @param bool $enabled true to enable ImageMagick.
+     */
+    public function setEnableImageMagick($enabled)
+    {
+        if (!is_bool($enabled)) {
+            throw new \InvalidArgumentException(
+                "enableImageMagick can only assume boolean values. Specified value: $enabled.");
+        }
+
+        if ($enabled) {
+            // Verify that the Imagick extension is installed
+            if (!extension_loaded('imagick')) {
+                throw new \Exception(
+                    'Failed to enable ImageMagick. '.
+                    'The Imagick PHP extension was not found on this system.');
+            }
+
+            // Verify SVG support is available
+            $formats = \Imagick::queryFormats('SVG');
+            if (empty($formats)) {
+                throw new \Exception(
+                    'Failed to enable ImageMagick. ImageMagick SVG support is required. '.
+                    'On Linux you need to install the libmagickcore-*-extra package. '.
+                    'Replace * with the appropriate version.');
+            }
+        }
+        
+        $this->enableImageMagick = $enabled;
     }
     
     /**
@@ -350,8 +401,9 @@ class Identicon
         switch (strtolower($imageFormat)) {
             case 'svg':
                 return new SvgRenderer($this->size, $this->size);
+
             default:
-                return extension_loaded('imagick') ?
+                return $this->getEnableImageMagick() ?
                     new ImagickRenderer($this->size, $this->size) :
                     new InternalPngRenderer($this->size, $this->size);
         }

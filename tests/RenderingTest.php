@@ -79,7 +79,7 @@ final class RenderingTest extends TestCase
     private function performTest($icon, $number)
     {
         $renderer = new InternalPngRenderer($icon->size, $icon->size);
-        $icon->draw($renderer, $icon->getIconBounds());
+        $icon->draw($renderer);
      
         // Format as data uri so that we can easily investigate failing rendering tests
         $actual = self::formatDataUri('png', $renderer->getData());

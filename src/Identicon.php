@@ -420,12 +420,17 @@ class Identicon
      * @param \Jdenticon\Rendering\RendererInterface $renderer The renderer used 
      *      to render this icon.
      * @param \Jdenticon\Rendering\Rectangle $rect The bounds of the rendered 
-     *      icon. No padding will be applied to the rectangle.
+     *      icon. No padding will be applied to the rectangle. If the parameter
+     *      is omitted, the rectangle is calculated from the current icon
+     *      size and padding.
      */
     public function draw(
         \Jdenticon\Rendering\RendererInterface $renderer, 
-        \Jdenticon\Rendering\Rectangle $rect)
+        \Jdenticon\Rendering\Rectangle $rect = null)
     {
+        if ($rect === null) {
+            $rect = $this->getIconBounds();
+        }
         $this->iconGenerator->generate(
             $renderer, $rect, $this->style, $this->hash);
     }

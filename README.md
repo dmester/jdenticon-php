@@ -3,6 +3,9 @@ PHP library for generating highly recognizable identicons.
 
 ![Sample identicons](https://jdenticon.com/hosted/github-samples.png)
 
+[![Build Status](https://travis-ci.org/dmester/jdenticon-php.svg?branch=master)](https://travis-ci.org/dmester/jdenticon-php)
+[![Total Downloads](https://poser.pugx.org/jdenticon/jdenticon/downloads)](https://packagist.org/packages/jdenticon/jdenticon)
+
 ## Features
 Jdenticon-php is a PHP port of the JavaScript library [Jdenticon](https://github.com/dmester/jdenticon).
 

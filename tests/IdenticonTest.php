@@ -1,6 +1,5 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Jdenticon\Identicon;
 use Jdenticon\IdenticonStyle;
 use Jdenticon\Rendering\IconGenerator;
@@ -12,9 +11,9 @@ class AnotherIconGenerator extends IconGenerator
     }
 }
 
-final class IdenticonTest extends TestCase
+final class IdenticonTest extends PHPUnit_Framework_TestCase
 {
-    public function testSetValue(): void
+    public function testSetValue()
     {
         $icon = new Identicon();
         $icon->value = 14.6;
@@ -25,7 +24,7 @@ final class IdenticonTest extends TestCase
         $this->assertEquals(14.6, $options['value']);
         $this->assertEquals(false, isset($options['hash']));
     }
-    public function testSetHash(): void
+    public function testSetHash()
     {
         $icon = new Identicon();
         $icon->hash = '4dbe74c9e554e745b1e199bcb0e19607a44e3a2f';
@@ -37,12 +36,12 @@ final class IdenticonTest extends TestCase
         $this->assertEquals(false, isset($options['value']));
     }
 
-    public function testSetSizeTooLow(): void
+    public function testSetSizeTooLow()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException('InvalidArgumentException');
         $icon = new Identicon(array('size' => 0));
     }
-    public function testSetSize(): void
+    public function testSetSize()
     {
         $icon = new Identicon(array('size' => 42.3));
         $this->assertEquals(42, $icon->getOptions()['size']);
@@ -50,13 +49,13 @@ final class IdenticonTest extends TestCase
 
 
 
-    public function testGetDefaultIconGenerator(): void
+    public function testGetDefaultIconGenerator()
     {
         $icon = new Identicon();
         $this->assertNotNull($icon->getIconGenerator());
         $this->assertFalse(isset($icon->getOptions()['iconGenerator']));
     }
-    public function testGetIconGenerator(): void
+    public function testGetIconGenerator()
     {
         $icon = new Identicon();
         $icon->iconGenerator = new AnotherIconGenerator();
@@ -64,13 +63,13 @@ final class IdenticonTest extends TestCase
         $this->assertNotNull($icon->getOptions()['iconGenerator']);
     }
 
-    public function testSetStyleNull(): void
+    public function testSetStyleNull()
     {
         $icon = new Identicon();
         $icon->style = null;
         $this->assertEquals(new IdenticonStyle(), $icon->getStyle());
     }
-    public function testSetStyleArray(): void
+    public function testSetStyleArray()
     {
         $icon = new Identicon();
         $icon->style = [
@@ -78,7 +77,7 @@ final class IdenticonTest extends TestCase
         ];
         $this->assertEquals('#aabbccdd', $icon->getStyle()->getBackgroundColor()->__toString());
     }
-    public function testSetStyleInstance(): void
+    public function testSetStyleInstance()
     {
         $style = new IdenticonStyle();
         $style->backgroundColor = '#abcd';
@@ -88,7 +87,7 @@ final class IdenticonTest extends TestCase
         $this->assertEquals('#aabbccee', $icon->getStyle()->getBackgroundColor()->__toString());
     }
 
-    public function testOptions(): void
+    public function testOptions()
     {
         $options = array(
             'value' => 'hello',

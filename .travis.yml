@@ -1,5 +1,12 @@
 language: php
 php:
-  - '5.5'
-  - '5.6'
-  - '7.1'
+  - 5.5
+  - 5.6
+  - 7.1
+
+before_script:
+  - printf "\n" | pecl install imagick
+  - composer install
+
+script: 
+  - ./vendor/bin/phpunit tests --bootstrap ./vendor/autoload.php

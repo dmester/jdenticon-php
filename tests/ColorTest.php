@@ -1,11 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Jdenticon\Color;
 
-final class ColorTest extends TestCase
+final class ColorTest extends PHPUnit_Framework_TestCase
 {
-    public function testParseValid(): void
+    public function testParseValid()
     {
         $this->assertEquals("#00000000", Color::parse("transparent")->__toString());
         $this->assertEquals("#66cdaaff", Color::parse("mediumaquaMarine")->__toString());
@@ -32,19 +31,19 @@ final class ColorTest extends TestCase
 
     public function testParseInvalidHex()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException('InvalidArgumentException');
         Color::parse("abc(5, 100%, 0%)");
     }
 
     public function testParseInvalidRgb()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException('InvalidArgumentException');
         Color::parse("rgb(56, 0, 5, 100%, 0%)");
     }
 
     public function testParseInvalidHsl()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException('InvalidArgumentException');
         Color::parse("hsl(1, 11%, 1)");
     }
 }

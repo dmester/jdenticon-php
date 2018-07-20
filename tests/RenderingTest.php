@@ -1,5 +1,7 @@
 <?php
 
+include_once(__DIR__ . '/InitTests.php');
+
 use Jdenticon\Identicon;
 use Jdenticon\IdenticonStyle;
 use Jdenticon\Rendering\IconGenerator;

@@ -1,19 +1,25 @@
 <?php
 
+include_once(__DIR__ . '/InitTests.php');
+
 use Jdenticon\IdenticonStyle;
 
 final class IdenticonStyleTest extends PHPUnit_Framework_TestCase
 {
     // BackgroundGrayscale
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testSetBackColorWrongType()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->setBackgroundColor(56);
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testSetBackColorInvalid()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->backgroundColor = "rbg(1,2,3)";
     }
@@ -25,21 +31,27 @@ final class IdenticonStyleTest extends PHPUnit_Framework_TestCase
     }
 
     // Padding
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testSetPaddingWrongType()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->padding = "15";
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testSetPaddingTooLarge()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->padding = 0.5;
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testSetPaddingTooSmall()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->padding = -0.1;
     }
@@ -51,15 +63,19 @@ final class IdenticonStyleTest extends PHPUnit_Framework_TestCase
     }
 
     // Hues
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testSetHuesWrongType()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->hues = "Not a hue";
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testSetHuesWrongInnerType()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->hues = array("Not a hue");
     }
@@ -91,21 +107,27 @@ final class IdenticonStyleTest extends PHPUnit_Framework_TestCase
     }
 
     // ColorSaturation
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testColorSaturationWrongType()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->colorSaturation = "15";
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testColorSaturationTooLarge()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->colorSaturation = 1.5;
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testColorSaturationTooSmall()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->colorSaturation = -0.1;
     }
@@ -117,21 +139,27 @@ final class IdenticonStyleTest extends PHPUnit_Framework_TestCase
     }
 
     // GrayscaleSaturation
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testGrayscaleSaturationWrongType()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->grayscaleSaturation = "15";
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testGrayscaleSaturationTooLarge()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->grayscaleSaturation = 1.5;
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testGrayscaleSaturationTooSmall()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->grayscaleSaturation = -0.1;
     }
@@ -143,54 +171,66 @@ final class IdenticonStyleTest extends PHPUnit_Framework_TestCase
     }
 
     // ColorLightness
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testColorLightnessWrongType()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->colorLightness = "15";
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testColorLightnessTooLarge()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->colorLightness = array(1.1, 0.5);
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testColorLightnessTooSmall()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->colorLightness = array(0.5, -0.01);
     }
     public function testColorLightnessValid()
     {
         $style = new IdenticonStyle();
-        $style->colorLightness = array(0.1, 0.3, 55667, "hejsan");
+        $style->colorLightness = array(0.1, 0.3, 55667, "hello");
         $this->assertEquals(array(0.1, 0.3), $style->getColorLightness());
     }
 
     // GrayscaleLightness
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testGrayscaleLightnessWrongType()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->grayscaleLightness = "15";
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testGrayscaleLightnessTooLarge()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->grayscaleLightness = array(1.1, 0.5);
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testGrayscaleLightnessTooSmall()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $style = new IdenticonStyle();
         $style->grayscaleLightness = array(0.5, -0.01);
     }
     public function testGrayscaleLightnessValid()
     {
         $style = new IdenticonStyle();
-        $style->grayscaleLightness = array(0.1, 0.3, 55667, "hejsan");
+        $style->grayscaleLightness = array(0.1, 0.3, 55667, "hello");
         $this->assertEquals(array(0.1, 0.3), $style->getGrayscaleLightness());
     }
 

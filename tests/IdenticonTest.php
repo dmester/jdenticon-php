@@ -1,5 +1,7 @@
 <?php
 
+include_once(__DIR__ . '/InitTests.php');
+
 use Jdenticon\Identicon;
 use Jdenticon\IdenticonStyle;
 use Jdenticon\Rendering\IconGenerator;
@@ -36,15 +38,18 @@ final class IdenticonTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, isset($options['value']));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testSetSizeTooLow()
     {
-        $this->setExpectedException('InvalidArgumentException');
         $icon = new Identicon(array('size' => 0));
     }
     public function testSetSize()
     {
         $icon = new Identicon(array('size' => 42.3));
-        $this->assertEquals(42, $icon->getOptions()['size']);
+        $options = $icon->getOptions();
+        $this->assertEquals(42, $options['size']);
     }
 
 
@@ -52,15 +57,17 @@ final class IdenticonTest extends PHPUnit_Framework_TestCase
     public function testGetDefaultIconGenerator()
     {
         $icon = new Identicon();
+        $options = $icon->getOptions();
         $this->assertNotNull($icon->getIconGenerator());
-        $this->assertFalse(isset($icon->getOptions()['iconGenerator']));
+        $this->assertFalse(isset($options['iconGenerator']));
     }
     public function testGetIconGenerator()
     {
         $icon = new Identicon();
         $icon->iconGenerator = new AnotherIconGenerator();
+        $options = $icon->getOptions();
         $this->assertNotNull($icon->getIconGenerator());
-        $this->assertNotNull($icon->getOptions()['iconGenerator']);
+        $this->assertNotNull($options['iconGenerator']);
     }
 
     public function testSetStyleNull()
@@ -72,9 +79,9 @@ final class IdenticonTest extends PHPUnit_Framework_TestCase
     public function testSetStyleArray()
     {
         $icon = new Identicon();
-        $icon->style = [
+        $icon->style = array(
             'backgroundcolor' => '#abcd'
-        ];
+        );
         $this->assertEquals('#aabbccdd', $icon->getStyle()->getBackgroundColor()->__toString());
     }
     public function testSetStyleInstance()

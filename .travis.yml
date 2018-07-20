@@ -1,11 +1,41 @@
 language: php
-php:
-  - 5.5
-  - 5.6
-  - 7.1
+matrix:
+  include:
+    - php: 5.3
+      dist: precise
+      env: 
+        - PHPUNIT_VERSION="4.*"
+        - PHPTIMER="1.*"
+        - IMAGICK_VERSION=3.3.0
+    - php: 5.4
+      dist: trusty
+      env: 
+        - PHPUNIT_VERSION="4.*"
+        - PHPTIMER="1.*"
+        - IMAGICK_VERSION=3.4.3
+    - php: 5.6
+      dist: trusty
+      env: 
+        - PHPUNIT_VERSION=5.*"
+        - PHPTIMER="1.*"
+        - IMAGICK_VERSION=3.4.3
+    - php: 7.0
+      dist: trusty
+      env: 
+        - PHPUNIT_VERSION="6.*"
+        - PHPTIMER="1.*"
+        - IMAGICK_VERSION=3.4.3
+    - php: 7.2
+      dist: trusty
+      env: 
+        - PHPUNIT_VERSION="7.*"
+        - PHPTIMER="2.*"
+        - IMAGICK_VERSION=3.4.3
 
 before_script:
-  - printf "\n" | pecl install imagick
+  - printf "\n" | pecl install -f imagick-$IMAGICK_VERSION
+  - composer require phpunit/phpunit:$PHPUNIT_VERSION --dev --no-update
+  - composer require phpunit/php-timer:$PHPTIMER --dev --no-update
   - composer install
 
 script: 

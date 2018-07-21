@@ -126,6 +126,10 @@ class Identicon
         
         $options['size'] = $this->getSize();
         $options['style'] = $this->getStyle()->getOptions();
+
+        if ($this->enableImageMagick !== null) {
+            $options['enableImageMagick'] = $this->getEnableImageMagick();
+        }
         
         if ($this->iconGenerator !== IconGenerator::getDefaultGenerator()) {
             $options['iconGenerator'] = $this->getIconGenerator();
@@ -230,9 +234,7 @@ class Identicon
         // is not as obvious as on PHP 5. Since the ImageMagick renderer has a 
         // lot of quirks, we don't want to use it unless really needed.
         if ($this->enableImageMagick === null) {
-            $this->enableImageMagick = 
-                PHP_MAJOR_VERSION < 7 &&
-                extension_loaded('imagick');
+            return PHP_MAJOR_VERSION < 7 && extension_loaded('imagick');
         }
         
         return $this->enableImageMagick;

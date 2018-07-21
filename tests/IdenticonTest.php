@@ -70,7 +70,7 @@ final class IdenticonTest extends PHPUnit_Framework_TestCase
     {
         $icon = new Identicon(array('enableimagemagick' => false));
         $options = $icon->getOptions();
-        $this->assertEquals(false, $options['enableimagemagick']);
+        $this->assertEquals(false, $options['enableImageMagick']);
     }
 
     public function testGetDefaultIconGenerator()

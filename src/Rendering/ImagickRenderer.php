@@ -282,8 +282,14 @@ class ImagickRenderer extends AbstractRenderer
     {
         $imagick = new \Imagick();
         $imagick->newImage($this->width, $this->height, $this->backgroundColor->__toString());
-        $imagick->setImageFormat("png");
-        $imagick->setImageAttribute("Software", "Jdenticon");
+        $imagick->setImageFormat('png');
+
+        if (method_exists($imagick, 'setImageProperty')) {
+            $imagick->setImageProperty('Software', 'Jdenticon');
+        } else {
+            $imagick->setImageAttribute('Software', 'Jdenticon');
+        }
+        
         $imagick->drawImage($this->draw);
         return $imagick->getImageBlob();
     }

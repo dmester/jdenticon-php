@@ -16,7 +16,7 @@ matrix:
     - php: 5.6
       dist: trusty
       env: 
-        - PHPUNIT_VERSION=5.*"
+        - PHPUNIT_VERSION="5.*"
         - PHPTIMER="1.*"
         - IMAGICK_VERSION=3.4.3
     - php: 7.0

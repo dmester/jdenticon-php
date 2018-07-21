@@ -81,7 +81,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
     private function performTest($icon, $number)
     {
         $this->performTestCore(new InternalPngRenderer($icon->size, $icon->size), $icon, $number, 16, 1);
-        $this->performTestCore(new ImagickRenderer($icon->size, $icon->size), $icon, $number, 60, 50);
+        $this->performTestCore(new ImagickRenderer($icon->size, $icon->size), $icon, $number, 80, 80);
     }
 
     private function performTestCore($renderer, $icon, $number, $errorTolerance, $errorCount)

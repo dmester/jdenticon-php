@@ -52,7 +52,26 @@ final class IdenticonTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(42, $options['size']);
     }
 
-
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSetEnableImageMagickInvalid()
+    {
+        $icon = new Identicon(array('enableimagemagick' => 55));
+    }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSetEnableImageMagickNull()
+    {
+        $icon = new Identicon(array('enableimagemagick' => null));
+    }
+    public function testSetEnableImageMagick()
+    {
+        $icon = new Identicon(array('enableimagemagick' => false));
+        $options = $icon->getOptions();
+        $this->assertEquals(false, $options['enableimagemagick']);
+    }
 
     public function testGetDefaultIconGenerator()
     {

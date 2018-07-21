@@ -59,7 +59,7 @@ class Identicon
     /**
      * @var bool
      */
-    private $enableImageMagick = false;
+    private $enableImageMagick;
 
     /**
      * Creates an Identicon instance with the specified hash.
@@ -226,40 +226,38 @@ class Identicon
      */
     public function getEnableImageMagick()
     {
+        // Enable ImageMagick on PHP < 7. On PHP 7 the performance increase
+        // is not as obvious as on PHP 5. Since the ImageMagick renderer has a 
+        // lot of quirks, we don't want to use it unless really needed.
+        if ($this->enableImageMagick === null) {
+            $this->enableImageMagick = 
+                PHP_MAJOR_VERSION < 7 &&
+                extension_loaded('imagick');
+        }
+        
         return $this->enableImageMagick;
     }
     
     /**
      * Sets whether ImageMagick should be used to generate PNG icons.
      *
-     * @param bool $enabled true to enable ImageMagick.
+     * @param bool $enable true to enable ImageMagick.
      */
-    public function setEnableImageMagick($enabled)
+    public function setEnableImageMagick($enable)
     {
-        if (!is_bool($enabled)) {
+        if (!is_bool($enable)) {
             throw new \InvalidArgumentException(
-                "enableImageMagick can only assume boolean values. Specified value: $enabled.");
+                "enableImageMagick can only assume boolean values. Specified value: $enable.");
         }
 
-        if ($enabled) {
-            // Verify that the Imagick extension is installed
-            if (!extension_loaded('imagick')) {
-                throw new \Exception(
-                    'Failed to enable ImageMagick. '.
-                    'The Imagick PHP extension was not found on this system.');
-            }
-
-            // Verify SVG support is available
-            $formats = \Imagick::queryFormats('SVG');
-            if (empty($formats)) {
-                throw new \Exception(
-                    'Failed to enable ImageMagick. ImageMagick SVG support is required. '.
-                    'On Linux you need to install the libmagickcore-*-extra package. '.
-                    'Replace * with the appropriate version.');
-            }
+        // Verify that the Imagick extension is installed
+        if ($enable && !extension_loaded('imagick')) {
+            throw new \Exception(
+                'Failed to enable ImageMagick. '.
+                'The Imagick PHP extension was not found on this system.');
         }
         
-        $this->enableImageMagick = $enabled;
+        $this->enableImageMagick = $enable;
     }
     
     /**

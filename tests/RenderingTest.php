@@ -6,6 +6,7 @@ use Jdenticon\Identicon;
 use Jdenticon\IdenticonStyle;
 use Jdenticon\Rendering\IconGenerator;
 use Jdenticon\Rendering\InternalPngRenderer;
+use Jdenticon\Rendering\ImagickRenderer;
 
 final class RenderingTest extends PHPUnit_Framework_TestCase
 {
@@ -79,7 +80,12 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
 
     private function performTest($icon, $number)
     {
-        $renderer = new InternalPngRenderer($icon->size, $icon->size);
+        $this->performTestCore(new InternalPngRenderer($icon->size, $icon->size), $icon, $number, 16, 1);
+        $this->performTestCore(new ImagickRenderer($icon->size, $icon->size), $icon, $number, 60, 50);
+    }
+
+    private function performTestCore($renderer, $icon, $number, $errorTolerance, $errorCount)
+    {
         $icon->draw($renderer);
      
         $actualRaw = $renderer->getData();
@@ -104,7 +110,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
             );
         $imagick->destroy();
         
-        $isok = true;
+        $errors = 0;
 
         for ($channel = 0; $channel < 3; $channel++) {
             $actual = $actualChannels[$channel];
@@ -118,25 +124,24 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
                 $a = $actual[$i] & 0xff;
                 $b = $expected[$i] & 0xff;
 
-                // Rounding can produce slightly different values. Allow ~6% error.
-                if (abs($a - $b) > 16) {
-                    $isok = false;
+                if (abs($a - $b) > $errorTolerance) {
+                    if (++$errors >= $errorCount) {
+                        // Format as data uri so that we can easily investigate failing rendering tests.
+                        $actual = self::formatDataUri('png', $actualRaw);
+                        $expected = self::formatDataUri('png', $expectedRaw);
+            
+                        $x = $i % $icon->size;
+                        $y = (int)($i / $icon->size);
 
-                    // Format as data uri so that we can easily investigate failing rendering tests.
-                    $actual = self::formatDataUri('png', $actualRaw);
-                    $expected = self::formatDataUri('png', $expectedRaw);
-        
-                    $x = $i % $icon->size;
-                    $y = (int)($i / $icon->size);
-
-                    $this->assertEquals($expected, $actual, "PNG rendering test for icon '$number'. $a != $b. Failed at pixel x: $x, y: $y.");
-                    break;
+                        $this->assertEquals($expected, $actual, "PNG rendering test for icon '$number'. $a != $b. Failed at pixel x: $x, y: $y.");
+                        break;
+                    }
                 }
             }
         }
 
         // Call assertEquals to register that the test was performed
-        if ($isok) {
+        if ($errors < $errorCount) {
             $this->assertEquals("", "", "PNG rendering test for icon '$number'.");
         }
 

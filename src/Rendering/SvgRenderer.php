@@ -102,8 +102,8 @@ class SvgRenderer extends AbstractRenderer
     public function getData($fragment = false)
     {
         $svg = '';
-        $widthAsString = number_format($this->width, 2, '.', '');
-        $heightAsString = number_format($this->height, 2, '.', '');
+        $widthAsString = number_format($this->width, 0, '.', '');
+        $heightAsString = number_format($this->height, 0, '.', '');
         
         if (!$fragment) {
             $svg .= '<svg xmlns="http://www.w3.org/2000/svg" width="' .

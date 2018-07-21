@@ -80,11 +80,25 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
 
     private function performTest($icon, $number)
     {
-        $this->performTestCore(new InternalPngRenderer($icon->size, $icon->size), $icon, $number, 16, 1);
-        $this->performTestCore(new ImagickRenderer($icon->size, $icon->size), $icon, $number, 80, 80);
+        $imagickVersion = \Imagick::getVersion();
+        $imagickVersion = $imagickVersion['versionString'];
+
+        $this->performTestCore("InternalPngRenderer", 
+            new InternalPngRenderer($icon->size, $icon->size), 
+            $icon, $number, 16, 1);
+            
+        $this->performTestCore("ImagickRenderer (IM $imagickVersion)", 
+            new ImagickRenderer($icon->size, $icon->size), 
+            $icon, $number, 80, 80);
+
+        // SVG should always produce exactly the same output
+        $actual = $icon->getImageDataUri('svg');
+        $expected = self::formatDataUri('svg', file_get_contents(__DIR__ ."/$number.svg"));
+
+        $this->assertEquals($expected, $actual, "SVG rendering test for icon '$number'.");
     }
 
-    private function performTestCore($renderer, $icon, $number, $errorTolerance, $errorCount)
+    private function performTestCore($rendererName, $renderer, $icon, $number, $errorTolerance, $errorCount)
     {
         $icon->draw($renderer);
      
@@ -92,7 +106,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
         $expectedRaw = file_get_contents(__DIR__ ."/$number.png");
 
         $imagick = new \Imagick();
-
+        
         // Only extract R, G and B channels. Extracting the alpha channel seems 
         // to produce unreliable values for some reason.
         $imagick->readImageBlob($actualRaw);
@@ -118,7 +132,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
 
             $actualCount = count($actual);
             $expectedCount = count($expected);
-            $this->assertEquals($expectedCount, $actualCount, "PNG rendering test for icon '$number'. Length diff.");
+            $this->assertEquals($expectedCount, $actualCount, "$rendererName: PNG rendering test for icon '$number'. Length diff.");
 
             for ($i = 0; $i < $actualCount; $i++) {
                 $a = $actual[$i] & 0xff;
@@ -133,7 +147,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
                         $x = $i % $icon->size;
                         $y = (int)($i / $icon->size);
 
-                        $this->assertEquals($expected, $actual, "PNG rendering test for icon '$number'. $a != $b. Failed at pixel x: $x, y: $y.");
+                        $this->assertEquals($expected, $actual, "$rendererName: PNG rendering test for icon '$number'. $a != $b. Failed at pixel x: $x, y: $y.");
                         break;
                     }
                 }
@@ -142,13 +156,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
 
         // Call assertEquals to register that the test was performed
         if ($errors < $errorCount) {
-            $this->assertEquals("", "", "PNG rendering test for icon '$number'.");
+            $this->assertEquals("", "", "$rendererName: PNG rendering test for icon '$number'.");
         }
-
-        // SVG should always produce exactly the same output
-        $actual = $icon->getImageDataUri('svg');
-        $expected = self::formatDataUri('svg', file_get_contents(__DIR__ ."/$number.svg"));
-
-        $this->assertEquals($expected, $actual, "SVG rendering test for icon '$number'.");
     }
 }

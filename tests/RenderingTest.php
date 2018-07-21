@@ -86,8 +86,8 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
         $this->performTestCore("InternalPngRenderer", 
             new InternalPngRenderer($icon->size, $icon->size), 
             $icon, $number, 16, 1);
-            
-        $this->performTestCore("ImagickRenderer (IM $imagickVersion)", 
+        
+        $this->performTestCore("ImagickRenderer ($imagickVersion)", 
             new ImagickRenderer($icon->size, $icon->size), 
             $icon, $number, 80, 80);
 
@@ -98,6 +98,39 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual, "SVG rendering test for icon '$number'.");
     }
 
+    private function extractPixels($data) 
+    {
+        $image = imagecreatefromstring($data);
+        
+        $r = array();
+        $g = array();
+        $b = array();
+        $a = array();
+
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        for ($x = 0; $x < $width; $x++) {
+            for ($y = 0; $y < $height; $y++) {
+                $rgb = imagecolorat($image, $x, $y);
+                $colors = imagecolorsforindex($image, $rgb);
+                $r[] = $colors['red'];
+                $g[] = $colors['green'];
+                $b[] = $colors['blue'];
+                $a[] = $colors['alpha'];
+            }
+        }
+
+        imagedestroy($image);
+
+        return array(
+            'R' => $r, 
+            'G' => $g, 
+            'B' => $b, 
+            'A' => $a
+        );
+    }
+
     private function performTestCore($rendererName, $renderer, $icon, $number, $errorTolerance, $errorCount)
     {
         $icon->draw($renderer);
@@ -105,29 +138,12 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
         $actualRaw = $renderer->getData();
         $expectedRaw = file_get_contents(__DIR__ ."/$number.png");
 
-        $imagick = new \Imagick();
-        
-        // Only extract R, G and B channels. Extracting the alpha channel seems 
-        // to produce unreliable values for some reason.
-        $imagick->readImageBlob($actualRaw);
-        $actualChannels = array(
-            $imagick->exportImagePixels(0, 0, $icon->size, $icon->size, "R", Imagick::PIXEL_INTEGER),
-            $imagick->exportImagePixels(0, 0, $icon->size, $icon->size, "G", Imagick::PIXEL_INTEGER),
-            $imagick->exportImagePixels(0, 0, $icon->size, $icon->size, "B", Imagick::PIXEL_INTEGER)
-            );
-        
-        $imagick->readImageBlob($expectedRaw);
-        $expectedChannels = array(
-            $imagick->exportImagePixels(0, 0, $icon->size, $icon->size, "R", Imagick::PIXEL_INTEGER),
-            $imagick->exportImagePixels(0, 0, $icon->size, $icon->size, "G", Imagick::PIXEL_INTEGER),
-            $imagick->exportImagePixels(0, 0, $icon->size, $icon->size, "B", Imagick::PIXEL_INTEGER)
-            );
-        $imagick->destroy();
+        $actualChannels = $this->extractPixels($actualRaw);
+        $expectedChannels = $this->extractPixels($expectedRaw);
         
         $errors = 0;
 
-        for ($channel = 0; $channel < 3; $channel++) {
-            $actual = $actualChannels[$channel];
+        foreach ($actualChannels as $channel => $actual) {
             $expected = $expectedChannels[$channel];
 
             $actualCount = count($actual);
@@ -147,7 +163,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
                         $x = $i % $icon->size;
                         $y = (int)($i / $icon->size);
 
-                        $this->assertEquals($expected, $actual, "$rendererName: PNG rendering test for icon '$number'. $a != $b. Failed at pixel x: $x, y: $y.");
+                        $this->assertEquals($expected, $actual, "$rendererName: PNG rendering test for icon '$number'. $channel: $a != $b. Failed at pixel x: $x, y: $y.");
                         break;
                     }
                 }

@@ -97,7 +97,7 @@ class ShapeDefinitions
             },
             function ($renderer, $cell, $index)
             {
-                $s = $cell / 3;
+                $s = (int)($cell / 3);
                 $renderer->addRectangle($s, $s, $cell - $s, $cell - $s);
             },
             function ($renderer, $cell, $index)

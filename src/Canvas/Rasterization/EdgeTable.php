@@ -58,7 +58,7 @@ class EdgeTable
      */
     public function getScanline($y)
     {
-        return @$this->scanlines[$y];
+        return isset($this->scanlines[$y]) ? $this->scanlines[$y] : null;
     }
 
     /**

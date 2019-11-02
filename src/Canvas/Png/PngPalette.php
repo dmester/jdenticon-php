@@ -46,7 +46,7 @@ class PngPalette
                     $lookup[$value] = $colorsCount++;
                     $colors[] = $value;
                     
-                    if ($colorsCount == 256) {
+                    if ($colorsCount > 256) {
                         break;
                     }
                 }

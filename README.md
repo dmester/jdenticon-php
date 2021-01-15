@@ -3,7 +3,7 @@ PHP library for generating highly recognizable identicons.
 
 ![Sample identicons](https://jdenticon.com/hosted/github-samples.png)
 
-[![Build Status](https://travis-ci.org/dmester/jdenticon-php.svg?branch=master)](https://travis-ci.org/dmester/jdenticon-php)
+[![Test Status](https://github.com/dmester/jdenticon-php/workflows/Tests/badge.svg)](https://travis-ci.org/dmester/jdenticon-php/actions)
 [![Total Downloads](https://poser.pugx.org/jdenticon/jdenticon/downloads)](https://packagist.org/packages/jdenticon/jdenticon)
 
 ## Features

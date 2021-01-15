@@ -1,0 +1,48 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php_version: 5.3
+            phpunit_version: 4.*
+            phptimer_version: 1.*
+          - php_version: 5.4
+            phpunit_version: 4.*
+            phptimer_version: 1.*
+          - php_version: 5.6
+            phpunit_version: 5.*
+            phptimer_version: 1.*
+          - php_version: 7.0
+            phpunit_version: 6.*
+            phptimer_version: 1.*
+          - php_version: 7.2
+            phpunit_version: 7.*
+            phptimer_version: 2.*
+          - php_version: 8.0
+            phpunit_version: 8.*
+            phptimer_version: 2.*
+
+    name: PHP ${{ matrix.php_version }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP Action ${{ matrix.php_version }}
+      uses: shivammathur/setup-php@2.9.0
+      with:
+        php-version: '${{ matrix.php_version }}'
+        extensions: gd, imagick
+
+    - name: Restore composer
+      run: composer require phpunit/phpunit:${{ matrix.phpunit_version }} phpunit/php-timer:${{ matrix.phptimer_version }} --dev
+    
+    - name: Run tests
+      run: ./vendor/bin/phpunit tests --bootstrap ./vendor/autoload.php

@@ -220,7 +220,7 @@ class ColorUtils
             ($forePA * (($fore >> 24) & 0xff) + $backPA * (($back >> 24) & 0xff)) /
             $pa);
 
-        $a = ($pa / 255);
+        $a = (int) ($pa / 255);
 
         return ($r << 24) | ($g << 16) | ($b << 8) | $a;
     }

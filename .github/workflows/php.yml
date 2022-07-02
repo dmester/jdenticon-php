@@ -41,6 +41,7 @@ jobs:
         php-version: '${{ matrix.php_version }}'
         tools: composer:2.2.15
         extensions: gd, imagick
+        ini-values: error_reporting=E_ALL
 
     - name: Restore composer
       run: composer require phpunit/phpunit:${{ matrix.phpunit_version }} phpunit/php-timer:${{ matrix.phptimer_version }} --dev

@@ -32,6 +32,9 @@ jobs:
           - php_version: 8.1
             phpunit_version: 8.*
             phptimer_version: 2.*
+          - php_version: 8.2
+            phpunit_version: 8.*
+            phptimer_version: 2.*
 
     name: PHP ${{ matrix.php_version }}
 

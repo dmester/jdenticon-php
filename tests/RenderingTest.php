@@ -53,24 +53,36 @@ final class RenderingTest extends PHPUnit\Framework\TestCase
         $this->performTest($icon, 76);
     }
 
-    public function testIcon50()
+    /**
+     * @dataProvider provideSimpleIcons
+     */
+    public function testSimpleIcon(int $number)
     {
         $icon = new Identicon(array(
-            'value' => 50,
+            'value' => $number,
             'size' => 50
         ));
 
-        $this->performTest($icon, 50);
+        $this->performTest($icon, $number);
     }
 
-    public function testIcon73()
+    public function provideSimpleIcons(): array
     {
-        $icon = new Identicon(array(
-            'value' => 73,
-            'size' => 50
-        ));
-
-        $this->performTest($icon, 73);
+        return [
+            [12],
+            [17],
+            [19],
+            [42],
+            [44],
+            [50],
+            [56],
+            [61],
+            [64],
+            [66],
+            [67],
+            [71],
+            [73],
+        ];
     }
 
     private static function formatDataUri(string $imageFormat, string $data)

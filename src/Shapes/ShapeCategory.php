@@ -20,46 +20,44 @@ class ShapeCategory
     /**
      * The index of the hash octet determining the color of shapes in this 
      * category.
-     *
-     * @var int
      */
-    public $colorIndex;
+    public int $colorIndex;
 
     /**
      * A list of possible shape definitions in this category.
      *
-     * @var array(function(
+     * @var array<callable(
      *      \Jdenticon\Rendering\RendererInterface $renderer, 
-     *      \Jdenticon\Shapes\ShapePosition $cell, 
-     *      int $index))
+     *      int $cell, 
+     *      int $index): void>
      */
-    public $shapes;
+    public array $shapes;
 
     /**
      * The index of the hash octet determining which of the shape definitions 
      * that will be used for a particular hash.
-     *
-     * @var int
      */
-    public $shapeIndex;
+    public int $shapeIndex;
 
     /**
      * The index of the hash octet determining the rotation index of the shape 
      * in the first position.
-     *
-     * @var int
      */
-    public $rotationIndex;
+    public ?int $rotationIndex;
 
     /**
      * The positions in which the shapes of this category will be rendered.
      *
-     * @var array(int)
+     * @var array<int>
      */
-    public $positions;
+    public array $positions;
     
     public function __construct(
-        $colorIndex, array $shapes, $shapeIndex, $rotationIndex, array $positions)
+        int $colorIndex, 
+        array $shapes, 
+        int $shapeIndex, 
+        ?int $rotationIndex, 
+        array $positions)
     {
         $this->colorIndex = $colorIndex;
         $this->shapes = $shapes;

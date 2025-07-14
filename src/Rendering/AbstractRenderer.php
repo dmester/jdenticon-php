@@ -11,6 +11,9 @@
 
 namespace Jdenticon\Rendering;
 
+use Jdenticon\Color;
+use Jdenticon\Rendering\Transform;
+
 /**
  * Base class for rendering shapes in an identicon. Implement this class to e.g. 
  * support a new file format that is not natively supported by Jdenticon. To 
@@ -19,9 +22,9 @@ namespace Jdenticon\Rendering;
  */
 abstract class AbstractRenderer implements RendererInterface
 {
-    private $transform;
-    protected $backgroundColor;
-    
+    private Transform $transform;
+    protected ?Color $backgroundColor = null;
+
     public function __construct()
     {
         $this->transform = Transform::getEmpty();
@@ -31,10 +34,10 @@ abstract class AbstractRenderer implements RendererInterface
      * Sets the current transform that will be applied on all coordinates before 
      * being rendered to the target image.
      *
-     * @param  \Jdenticon\Rendering\Transform $transform  The transform to set. 
+     * @param \Jdenticon\Rendering\Transform|null $transform The transform to set. 
      *      If NULL is specified any existing transform is removed.
      */
-    public function setTransform(\Jdenticon\Rendering\Transform $transform) 
+    public function setTransform(?Transform $transform): void
     {
         $this->transform = $transform === null ? 
             Transform::getEmpty() : $transform;
@@ -46,7 +49,7 @@ abstract class AbstractRenderer implements RendererInterface
      *
      * @return \Jdenticon\Rendering\Transform
      */
-    public function getTransform() 
+    public function getTransform(): Transform
     {
         return $this->transform;
     }
@@ -54,29 +57,26 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Adds a polygon without translating its coordinates.
      *
-     * @param  array $points An array of the points that the polygon consists of.
+     * @param array<\Jdenticon\Rendering\Point> $points An array of the points that the polygon consists of.
      */
-    abstract protected function addPolygonNoTransform($points);
+    abstract protected function addPolygonNoTransform(array $points): void;
 
     /**
      * Adds a circle without translating its coordinates.
      *
-     * @param float $x The x-coordinate of the bounding rectangle 
-     *      upper-left corner.
-     * @param float $y The y-coordinate of the bounding rectangle 
-     *      upper-left corner.
+     * @param float $x The x-coordinate of the bounding rectangle upper-left corner.
+     * @param float $y The y-coordinate of the bounding rectangle upper-left corner.
      * @param float $size The size of the bounding rectangle.
-     * @param bool $counterClockwise If true the circle will be drawn 
-     *      counter clockwise.
+     * @param bool $counterClockwise If true the circle will be drawn counter clockwise.
      */
-    abstract protected function addCircleNoTransform($x, $y, $size, $counterClockwise);
+    abstract protected function addCircleNoTransform(float $x, float $y, float $size, bool $counterClockwise): void;
 
     /**
      * Sets the background color of the image.
      *
-     * @param \Jdenticon\Color $color  The image background color.
+     * @param \Jdenticon\Color $color The image background color.
      */
-    public function setBackgroundColor(\Jdenticon\Color $color)
+    public function setBackgroundColor(Color $color): void
     {
         $this->backgroundColor = $color;
     }
@@ -86,12 +86,18 @@ abstract class AbstractRenderer implements RendererInterface
      *
      * @return \Jdenticon\Color
      */
-    public function getBackgroundColor()
+    public function getBackgroundColor(): Color
     {
+        if ($this->backgroundColor === null) {
+            $this->backgroundColor = Color::fromRgb(0, 0, 0, 0);
+        }
         return $this->backgroundColor;
     }
     
-    private function addPolygonCore(array $points, $invert)
+    /**
+     * @param array<Point> $points
+     */
+    private function addPolygonCore(array $points, bool $invert): void
     {
         $transformedPoints = array();
         foreach ($points as $point) {
@@ -102,9 +108,7 @@ abstract class AbstractRenderer implements RendererInterface
         if ($invert) {
             $transformedPoints = array_reverse($transformedPoints);
         }
-        
-        //var_dump($transformedPoints);
-        
+
         $this->addPolygonNoTransform($transformedPoints);
     }
 
@@ -118,7 +122,7 @@ abstract class AbstractRenderer implements RendererInterface
      * @param bool $invert If true the area of the rectangle will be removed 
      *      from the filled area.
      */
-    public function addRectangle($x, $y, $width, $height, $invert = false)
+    public function addRectangle(float $x, float $y, float $width, float $height, bool $invert = false): void
     {
         $this->addPolygonCore(array(
             new Point($x, $y),
@@ -131,15 +135,12 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Adds a circle to the image.
      *
-     * @param float $x The x-coordinate of the bounding rectangle 
-     *      upper-left corner.
-     * @param float $y The y-coordinate of the bounding rectangle 
-     *      upper-left corner.
+     * @param float $x The x-coordinate of the bounding rectangle upper-left corner.
+     * @param float $y The y-coordinate of the bounding rectangle upper-left corner.
      * @param float $size The size of the bounding rectangle.
-     * @param bool $invert If true the area of the circle will be removed 
-     *      from the filled area.
+     * @param bool $invert If true the area of the circle will be removed from the filled area.
      */
-    public function addCircle($x, $y, $size, $invert = false)
+    public function addCircle(float $x, float $y, float $size, bool $invert = false): void
     {
         $northWest = $this->transform->transformPoint($x, $y, $size, $size);
         $this->addCircleNoTransform($northWest->x, $northWest->y, $size, $invert);
@@ -148,11 +149,10 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Adds a polygon to the image.
      *
-     * @param array $points Array of points that the polygon consists of.
-     * @param bool $invert If true the area of the polygon will be removed 
-     *      from the filled area.
+     * @param array<Point> $points Array of points that the polygon consists of.
+     * @param bool $invert If true the area of the polygon will be removed from the filled area.
      */
-    public function addPolygon($points, $invert = false)
+    public function addPolygon(array $points, bool $invert = false): void
     {
         $this->addPolygonCore($points, $invert);
     }
@@ -160,18 +160,15 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Adds a triangle to the image.
      *
-     * @param float $x The x-coordinate of the bounding rectangle 
-     *      upper-left corner.
-     * @param float $y The y-coordinate of the bounding rectangle 
-     *      upper-left corner.
+     * @param float $x The x-coordinate of the bounding rectangle upper-left corner.
+     * @param float $y The y-coordinate of the bounding rectangle upper-left corner.
      * @param float $width The width of the bounding rectangle.
      * @param float $height The height of the bounding rectangle.
-     * @param float $direction The direction of the 90 degree corner of the 
-     *      triangle.
-     * @param bool $invert If true the area of the triangle will be removed 
-     *      from the filled area.
+     * @param int $direction The direction of the 90-degree corner of the triangle.
+     *     Value of {@link \Jdenticon\Rendering\TriageDirection}
+     * @param bool $invert If true the area of the triangle will be removed from the filled area.
      */
-    public function addTriangle($x, $y, $width, $height, $direction, $invert = false)
+    public function addTriangle(float $x, float $y, float $width, float $height, int $direction, bool $invert = false): void
     {
         $points = array(
             new Point($x + $width, $y),
@@ -188,16 +185,13 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Adds a rhombus to the image.
      *
-     * @param float $x The x-coordinate of the bounding rectangle 
-     *      upper-left corner.
-     * @param float $y The y-coordinate of the bounding rectangle 
-     *      upper-left corner.
+     * @param float $x The x-coordinate of the bounding rectangle upper-left corner.
+     * @param float $y The y-coordinate of the bounding rectangle upper-left corner.
      * @param float $width The width of the bounding rectangle.
      * @param float $height The height of the bounding rectangle.
-     * @param bool $invert If true the area of the rhombus will be removed 
-     *      from the filled area.
+     * @param bool $invert If true the area of the rhombus will be removed from the filled area.
      */
-    public function addRhombus($x, $y, $width, $height, $invert = false)
+    public function addRhombus(float $x, float $y, float $width, float $height, bool $invert = false): void
     {
         $this->addPolygonCore(array(
             new Point($x + $width / 2, $y),

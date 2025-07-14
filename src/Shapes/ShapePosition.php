@@ -21,14 +21,14 @@ class ShapePosition
      *
      * @var int
      */
-    public $x;
+    public int $x;
     
     /**
      * The vertical cell index measured from the top.
      *
      * @var int
      */
-    public $y;
+    public int $y;
 
     /**
      * Creates a new ShapePosition instance.
@@ -36,7 +36,7 @@ class ShapePosition
      * @param int $x The x-coordinate of the containing cell.
      * @param int $y The y-coordinate of the containing cell.
      */
-    public function __construct($x, $y)
+    public function __construct(int $x, int $y)
     {
         $this->x = $x;
         $this->y = $y;

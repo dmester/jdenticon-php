@@ -16,8 +16,8 @@ namespace Jdenticon\Rendering;
  */
 class SvgPath
 {
-    private $dataString;
-    
+    private string $dataString;
+
     public function __construct() 
     {
         $this->dataString = '';
@@ -33,7 +33,7 @@ class SvgPath
      *      clockwise. This affects the rendering since the evenodd filling rule 
      *      is used by Jdenticon.
      */
-    public function addCircle($x, $y, $size, $counterClockwise)
+    public function addCircle(float $x, float $y, float $size, bool $counterClockwise): void
     {
         $sweepFlag = $counterClockwise ? '0' : '1';
         $radiusAsString = number_format($size / 2, 2, '.', '');
@@ -50,10 +50,10 @@ class SvgPath
     /**
      * Adds a polygon to the SVG.
      *
-     * @param array(\Jdenticon\Rendering\Point) $points The corners of the 
+     * @param array<\Jdenticon\Rendering\Point> $points The corners of the 
      *      polygon.
      */
-    public function addPolygon($points)
+    public function addPolygon(array $points): void
     {
         $pointCount = count($points);
 
@@ -75,7 +75,7 @@ class SvgPath
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->dataString;
     }

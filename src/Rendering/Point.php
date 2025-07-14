@@ -22,7 +22,7 @@ class Point
      * @param float $x X coordinate.
      * @param float $y Y coordinate.
      */
-    public function __construct($x, $y)
+    public function __construct(float $x, float $y)
     {
         $this->x = $x;
         $this->y = $y;
@@ -30,25 +30,19 @@ class Point
 
     /**
      * The X coordinate of this point.
-     *
-     * @var float
      */
-    public $x;
+    public float $x;
 
     /**
      * The Y coordinate of this point.
-     *
-     * @var float
      */
-    public $y;
+    public float $y;
 
     /**
      * Gets a string representation of the point.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->x + ", " + $this->y;
+        return $this->x . ", " . $this->y;
     }
 }

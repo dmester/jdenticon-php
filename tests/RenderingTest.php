@@ -1,5 +1,7 @@
 <?php
 
+use Jdenticon\Rendering\RendererInterface;
+
 include_once(__DIR__ . '/InitTests.php');
 
 use Jdenticon\Identicon;
@@ -71,14 +73,14 @@ final class RenderingTest extends PHPUnit\Framework\TestCase
         $this->performTest($icon, 73);
     }
 
-    private static function formatDataUri($imageFormat, $data)
+    private static function formatDataUri(string $imageFormat, string $data)
     {
         $mimeType = $imageFormat == 'png' ? 'image/png' : 'image/svg+xml';
         $base64 = base64_encode($data);
         return "data:$mimeType;base64,$base64";
     }
 
-    private function performTest($icon, $number)
+    private function performTest(Identicon $icon, int $number): void
     {
         $imagickVersion = \Imagick::getVersion();
         $imagickVersion = $imagickVersion['versionString'];
@@ -98,7 +100,7 @@ final class RenderingTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual, "SVG rendering test for icon '$number'.");
     }
 
-    private function extractPixels($data)
+    private function extractPixels(string $data): array
     {
         $image = imagecreatefromstring($data);
 
@@ -131,7 +133,7 @@ final class RenderingTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    private function performTestCore($rendererName, $renderer, $icon, $number, $errorTolerance, $errorCount)
+    private function performTestCore(string $rendererName, RendererInterface $renderer, Identicon $icon, int $number, int $errorTolerance, int $errorCount): void
     {
         $icon->draw($renderer);
 

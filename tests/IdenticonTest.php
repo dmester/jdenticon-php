@@ -51,18 +51,6 @@ final class IdenticonTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(42, $options['size']);
     }
 
-    public function testSetEnableImageMagickInvalid()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $icon = new Identicon(array('enableimagemagick' => 55));
-    }
-    public function testSetEnableImageMagickNull()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $icon = new Identicon(array('enableimagemagick' => null));
-    }
     public function testSetEnableImageMagick()
     {
         $icon = new Identicon(array('enableimagemagick' => false));

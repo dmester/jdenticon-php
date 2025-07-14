@@ -13,10 +13,10 @@ namespace Jdenticon\Canvas\Rasterization;
 
 class EdgeSuperSampleIntersection
 {
-    public $x;
-    public $edge;
+    public float $x;
+    public Edge $edge;
     
-    public function __construct($x, $edge) 
+    public function __construct(float $x, Edge $edge) 
     {
         $this->x = $x;
         $this->edge = $edge;

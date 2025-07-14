@@ -16,10 +16,10 @@ namespace Jdenticon\Rendering;
  */
 class Transform
 {
-    private $x;
-    private $y;
-    private $size;
-    private $rotation;
+    private float $x;
+    private float $y;
+    private float $size;
+    private int $rotation;
 
     /**
      * Creates a new Transform.
@@ -29,10 +29,10 @@ class Transform
      * @param float $y The y-coordinate of the upper left corner of the 
      *      transformed rectangle.
      * @param float $size The size of the transformed rectangle.
-     * @param integer $rotation Rotation specified as 
+     * @param int $rotation Rotation specified as 
      *      0 = 0 rad, 1 = 0.5π rad, 2 = π rad, 3 = 1.5π rad.
      */
-    public function __construct($x, $y, $size, $rotation)
+    public function __construct(float $x, float $y, float $size, int $rotation)
     {
         $this->x = $x;
         $this->y = $y;
@@ -45,7 +45,7 @@ class Transform
      *
      * @return \Jdenticon\Rendering\Transform
      */
-    public static function getEmpty() 
+    public static function getEmpty(): Transform
     {
         return new Transform(0, 0, 0, 0);
     }
@@ -64,7 +64,7 @@ class Transform
      *      corner of the transformed rectangle.
      * @return \Jdenticon\Rendering\Point
      */
-    public function transformPoint($x, $y, $width = 0, $height = 0)
+    public function transformPoint(float $x, float $y, float $width = 0, float $height = 0): Point
     {
         $right = $this->x + $this->size;
         $bottom = $this->y + $this->size;

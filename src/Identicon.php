@@ -30,37 +30,17 @@ class Identicon
      */
     private $value;
 
-    /**
-     * @var boolean
-     */
-    private $valueSet = false;
+    private bool $valueSet = false;
 
     /**
      * Defaults to hash of an empty string.
-     *
-     * @var string
      */
-    private $hash = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
+    private string $hash = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
 
-    /**
-     * @var integer
-     */
-    private $size = 100;
-
-    /**
-     * @var Jdenticon\Rendering\IconGenerator
-     */
-    private $iconGenerator;
-
-    /**
-     * @var Jdenticon\IdenticonStyle
-     */
-    private $style;
-
-    /**
-     * @var bool
-     */
-    private $enableImageMagick;
+    private int $size = 100;
+    private IconGenerator $iconGenerator;
+    private ?IdenticonStyle $style = null;
+    private ?bool $enableImageMagick = null;
 
     /**
      * Creates an Identicon instance with the specified hash.
@@ -91,7 +71,7 @@ class Identicon
      * @param int $size The size of the icon in pixels (the icon is quadratic).
      * @return \Jdenticon\Identicon
      */
-    public static function fromHash($hash, $size)
+    public static function fromHash(string $hash, int $size): self
     {
         return new Identicon(array('hash' => $hash, 'size' => $size));
     }
@@ -105,7 +85,7 @@ class Identicon
      * @param int $size The size of the icon in pixels (the icon is quadratic).
      * @return \Jdenticon\Identicon
      */
-    public static function fromValue($value, $size)
+    public static function fromValue($value, int $size): self
     {
         return new Identicon(array('value' => $value, 'size' => $size));
     }
@@ -113,9 +93,9 @@ class Identicon
     /**
      * Gets an associative array of all options of this identicon.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         $options = array();
 
@@ -143,10 +123,10 @@ class Identicon
      * Sets options in this identicon by specifying an associative array of
      * option values.
      *
-     * @param array $options Options to set.
+     * @param array<string, mixed> $options Options to set.
      * @return self
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): self
     {
         foreach ($options as $key => $value) {
             $this->__set($key, $value);
@@ -154,7 +134,7 @@ class Identicon
         return $this;
     }
 
-    public function __get($name)
+    public function __get(string $name)
     {
         switch (strtolower($name)) {
             case 'size':
@@ -175,7 +155,7 @@ class Identicon
         }
     }
 
-    public function __set($name, $value)
+    public function __set(string $name, $value)
     {
         switch (strtolower($name)) {
             case 'size':
@@ -205,7 +185,7 @@ class Identicon
     /**
      * Gets the size of the icon in pixels.
      */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }
@@ -215,7 +195,7 @@ class Identicon
      *
      * @param int|float|double $size The width and height of the icon.
      */
-    public function setSize($size)
+    public function setSize($size): void
     {
         if (!is_numeric($size) || $size < 1) {
             throw new \InvalidArgumentException(
@@ -229,7 +209,7 @@ class Identicon
     /**
      * Gets the size of the icon in pixels.
      */
-    public function getEnableImageMagick()
+    public function getEnableImageMagick(): bool
     {
         // Enable ImageMagick on PHP < 7. On PHP 7 the performance increase
         // is not as obvious as on PHP 5. Since the ImageMagick renderer has a
@@ -246,13 +226,8 @@ class Identicon
      *
      * @param bool $enable true to enable ImageMagick.
      */
-    public function setEnableImageMagick($enable)
+    public function setEnableImageMagick(bool $enable): void
     {
-        if (!is_bool($enable)) {
-            throw new \InvalidArgumentException(
-                "enableImageMagick can only assume boolean values. Specified value: $enable.");
-        }
-
         // Verify that the Imagick extension is installed
         if ($enable && !extension_loaded('imagick')) {
             throw new \Exception(
@@ -268,7 +243,7 @@ class Identicon
      *
      * @return \Jdenticon\Rendering\IconGenerator
      */
-    public function getIconGenerator()
+    public function getIconGenerator(): IconGenerator
     {
         return $this->iconGenerator;
     }
@@ -280,7 +255,7 @@ class Identicon
      *      that will render the shapes of the identicon.
      * @return \Jdenticon\Identicon
      */
-    public function setIconGenerator(IconGenerator $iconGenerator)
+    public function setIconGenerator(IconGenerator $iconGenerator): self
     {
         if ($iconGenerator === null) {
             $iconGenerator = IconGenerator::getDefaultGenerator();
@@ -294,7 +269,7 @@ class Identicon
      *
      * @return \Jdenticon\IdenticonStyle
      */
-    public function getStyle()
+    public function getStyle(): IdenticonStyle
     {
         return $this->style;
     }
@@ -302,11 +277,11 @@ class Identicon
     /**
      * Gets or sets the style of the icon.
      *
-     * @param array|\Jdenticon\IdenticonStyle $style The new style of the icon.
+     * @param array<string, mixed>|\Jdenticon\IdenticonStyle $style The new style of the icon.
      *      NULL will revert the identicon to use the default style.
      * @return self
      */
-    public function setStyle($style)
+    public function setStyle($style): self
     {
         if ($style == null) {
             $this->style = new IdenticonStyle();
@@ -328,7 +303,7 @@ class Identicon
      * Gets a binary string containing the hash that is used as base for this
      * icon.
      */
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
@@ -339,13 +314,8 @@ class Identicon
      *
      * @param string $hash Binary string containing the hash.
      */
-    public function setHash($hash)
+    public function setHash(string $hash): self
     {
-        if (!is_string($hash)) {
-            throw new \InvalidArgumentException(
-                'An invalid $hash was passed to Identicon. ' .
-                'A binary string was expected.');
-        }
         if (strlen($hash) < 6) {
             throw new \InvalidArgumentException(
                 'An invalid $hash was passed to Identicon. ' .
@@ -373,7 +343,7 @@ class Identicon
      *
      * @param mixed $value Value that will be hashed.
      */
-    public function setValue($value)
+    public function setValue($value): self
     {
         $this->hash = sha1("$value");
         $this->value = $value;
@@ -386,7 +356,7 @@ class Identicon
      *
      * @return \Jdenticon\Rendering\Rectangle
      */
-    public function getIconBounds()
+    public function getIconBounds(): Rectangle
     {
         // Round padding to nearest integer
         $padding = (int)($this->style->getPadding() * $this->size + 0.5);
@@ -397,7 +367,7 @@ class Identicon
             $this->size - $padding * 2);
     }
 
-    private function getRenderer($imageFormat)
+    private function getRenderer(string $imageFormat): RendererInterface
     {
         switch (strtolower($imageFormat)) {
             case 'svg':
@@ -425,10 +395,7 @@ class Identicon
      *      is omitted, the rectangle is calculated from the current icon
      *      size and padding.
      */
-    public function draw(
-        \Jdenticon\Rendering\RendererInterface $renderer,
-        ?\Jdenticon\Rendering\Rectangle $rect = null)
-    {
+    public function draw(RendererInterface $renderer, ?Rectangle $rect = null): void {
         if ($rect === null) {
             $rect = $this->getIconBounds();
         }
@@ -446,7 +413,7 @@ class Identicon
      * @param string $imageFormat The image format of the output.
      *      Supported values are 'png' and 'svg'.
      */
-    public function displayImage($imageFormat = 'png')
+    public function displayImage(string $imageFormat = 'png'): void
     {
         $renderer = $this->getRenderer($imageFormat);
         $this->draw($renderer, $this->getIconBounds());
@@ -463,7 +430,7 @@ class Identicon
      *      Supported values are 'png' and 'svg'.
      * @return string
      */
-    public function getImageData($imageFormat = 'png')
+    public function getImageData(string $imageFormat = 'png'): string
     {
         $renderer = $this->getRenderer($imageFormat);
         $this->draw($renderer, $this->getIconBounds());
@@ -480,7 +447,7 @@ class Identicon
      *      Supported values are 'png' and 'svg'.
      * @return string
      */
-    public function getImageDataUri($imageFormat = 'png')
+    public function getImageDataUri(string $imageFormat = 'png'): string
     {
         $renderer = $this->getRenderer($imageFormat);
         $this->draw($renderer, $this->getIconBounds());

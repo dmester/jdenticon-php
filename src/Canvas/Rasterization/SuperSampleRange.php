@@ -13,12 +13,13 @@ namespace Jdenticon\Canvas\Rasterization;
 
 class SuperSampleRange
 {
-    public $fromX;
-    public $toXExcl;
-    public $edges;
-    public $width;
+    public int $fromX;
+    public int $toXExcl;
+    /** @var array<Edge> */
+    public array $edges;
+    public int $width;
     
-    public function __construct($fromX, $toXExcl) 
+    public function __construct(int $fromX, int $toXExcl) 
     {
         $this->fromX = $fromX;
         $this->toXExcl = $toXExcl;

@@ -11,7 +11,6 @@
 
 namespace Jdenticon\Canvas;
 
-use Jdenticon\Canvas\Rasterization\Edge;
 use Jdenticon\Canvas\Rasterization\EdgeTable;
 use Jdenticon\Canvas\Rasterization\Rasterizer;
 use Jdenticon\Canvas\Png\PngPalette;
@@ -21,15 +20,15 @@ use Jdenticon\Canvas\ColorUtils;
 
 class Canvas
 {
-    private $edges;
+    private EdgeTable $edges;
 
     /**
      * Creates a new canvas with the specified dimensions given in pixels.
      *
-     * @param integer $width  Canvas width in pixels.
-     * @param integer $height  Canvas height in pixels.
+     * @param int $width  Canvas width in pixels.
+     * @param int $height  Canvas height in pixels.
      */
-    public function __construct($width, $height) 
+    public function __construct(int $width, int $height) 
     {
         $this->width = $width;
         $this->height = $height;
@@ -38,17 +37,13 @@ class Canvas
 
     /**
      * The width of the canvas in pixels.
-     *
-     * @var integer
      */
-    public $width = 0;
+    public int $width = 0;
 
     /**
      * The height of the canvas in pixels.
-     *
-     * @var integer
      */
-    public $height = 0;
+    public int $height = 0;
 
     /**
      * Specifies the background color. Allowed values are:
@@ -57,16 +52,16 @@ class Canvas
      * - strings on the format #RRGGBB
      * - strings on the format #RRGGBBAA
      *
-     * @var integer|string
+     * @var int|string
      */
     public $backColor = 0x00000000;
 
     /**
      * Gets a context used to draw polygons on this canvas.
      *
-     * @returns \Jdenticon\Canvas\CanvasContext
+     * @return \Jdenticon\Canvas\CanvasContext
      */
-    public function getContext() 
+    public function getContext(): CanvasContext
     {
         return new CanvasContext($this, $this->edges);
     }
@@ -74,11 +69,11 @@ class Canvas
     /**
      * Renders the canvas as a PNG data stream.
      *
-     * @param array $keywords  Keywords to be written to the PNG stream. 
+     * @param array<string, string> $keywords  Keywords to be written to the PNG stream. 
      *       See https://www.w3.org/TR/PNG/#11keywords.
-     * @returns string
+     * @return string
      */
-    public function toPng($keywords = array()) 
+    public function toPng(array $keywords = []): string
     {
         $colorRanges = array();
         

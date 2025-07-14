@@ -7,13 +7,6 @@ use Jdenticon\IdenticonStyle;
 final class IdenticonStyleTest extends PHPUnit\Framework\TestCase
 {
     // BackgroundGrayscale
-    public function testSetBackColorWrongType()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $style = new IdenticonStyle();
-        $style->setBackgroundColor(56);
-    }
     public function testSetBackColorInvalid()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -29,13 +22,6 @@ final class IdenticonStyleTest extends PHPUnit\Framework\TestCase
     }
 
     // Padding
-    public function testSetPaddingWrongType()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $style = new IdenticonStyle();
-        $style->padding = "15";
-    }
     public function testSetPaddingTooLarge()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -100,13 +86,6 @@ final class IdenticonStyleTest extends PHPUnit\Framework\TestCase
     }
 
     // ColorSaturation
-    public function testColorSaturationWrongType()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $style = new IdenticonStyle();
-        $style->colorSaturation = "15";
-    }
     public function testColorSaturationTooLarge()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -129,13 +108,6 @@ final class IdenticonStyleTest extends PHPUnit\Framework\TestCase
     }
 
     // GrayscaleSaturation
-    public function testGrayscaleSaturationWrongType()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $style = new IdenticonStyle();
-        $style->grayscaleSaturation = "15";
-    }
     public function testGrayscaleSaturationTooLarge()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -158,13 +130,6 @@ final class IdenticonStyleTest extends PHPUnit\Framework\TestCase
     }
 
     // ColorLightness
-    public function testColorLightnessWrongType()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $style = new IdenticonStyle();
-        $style->colorLightness = "15";
-    }
     public function testColorLightnessTooLarge()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -187,13 +152,6 @@ final class IdenticonStyleTest extends PHPUnit\Framework\TestCase
     }
 
     // GrayscaleLightness
-    public function testGrayscaleLightnessWrongType()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $style = new IdenticonStyle();
-        $style->grayscaleLightness = "15";
-    }
     public function testGrayscaleLightnessTooLarge()
     {
         $this->expectException(\InvalidArgumentException::class);

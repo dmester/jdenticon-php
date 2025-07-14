@@ -15,17 +15,13 @@ class Point
 {
     /**
      * X coordinate.
-     *
-     * @var float
      */
-    public $x;
+    public float $x;
     
     /**
      * Y coordinate.
-     *
-     * @var float
      */
-    public $y;
+    public float $y;
 
     /**
      * Creates a new 2D point.
@@ -33,7 +29,7 @@ class Point
      * @param float $x X coordinate.
      * @param float $y Y coordinate.
      */
-    public function __construct($x, $y) 
+    public function __construct(float $x, float $y) 
     {
         $this->x = $x;
         $this->y = $y;

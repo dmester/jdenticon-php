@@ -13,11 +13,11 @@ namespace Jdenticon\Canvas\Rasterization;
 
 class EdgeIntersection
 {
-    public $fromX;
-    public $width;
-    public $edge;
+    public int $fromX;
+    public int $width;
+    public Edge $edge;
  
-    public function __construct($fromX, $width, $edge) 
+    public function __construct(int $fromX, int $width, Edge $edge) 
     {
         $this->fromX = $fromX;
         $this->width = $width;

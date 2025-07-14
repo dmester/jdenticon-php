@@ -211,11 +211,10 @@ class Identicon
      */
     public function getEnableImageMagick(): bool
     {
-        // Enable ImageMagick on PHP < 7. On PHP 7 the performance increase
-        // is not as obvious as on PHP 5. Since the ImageMagick renderer has a
-        // lot of quirks, we don't want to use it unless really needed.
+        // Performance of using Imagick on PHP 7 and later is generally worse than using
+        // the internal renderer. Because of this, default to false.
         if ($this->enableImageMagick === null) {
-            return PHP_MAJOR_VERSION < 7 && extension_loaded('imagick');
+            return false;
         }
 
         return $this->enableImageMagick;

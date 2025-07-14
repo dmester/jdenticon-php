@@ -2,10 +2,11 @@
 /**
  * This file is part of Jdenticon for PHP.
  * https://github.com/dmester/jdenticon-php/
- * 
+ *
  * Copyright (c) 2018 Daniel Mester Pirttijärvi
- * 
- * For full license information, please see the LICENSE file that was 
+ * Copyright (c) 2024 Peter Putzer
+ *
+ * For full license information, please see the LICENSE file that was
  * distributed with this source code.
  */
 
@@ -18,42 +19,42 @@ use Jdenticon\Color;
  */
 class IdenticonStyle
 {
-    /** 
+    /**
      * @var \Jdenticon\Color
      */
     private $backgroundColor;
-    
-    /** 
+
+    /**
      * @var float
      */
     private $padding;
-    
-    /** 
+
+    /**
      * @var float
      */
     private $colorSaturation;
-    
-    /** 
+
+    /**
      * @var float
      */
     private $grayscaleSaturation;
-    
-    /** 
+
+    /**
      * @var array(float)
      */
     private $colorLightness;
-    
-    /** 
+
+    /**
      * @var array(float)
      */
     private $grayscaleLightness;
 
-    /** 
+    /**
      * @var array(integer)
      */
     private $hues;
-    
-    public function __construct(array $options = null)
+
+    public function __construct(?array $options = null)
     {
         $this->backgroundColor = self::getDefaultBackgroundColor();
         $this->padding = self::getDefaultPadding();
@@ -61,12 +62,12 @@ class IdenticonStyle
         $this->grayscaleSaturation = self::getDefaultGrayscaleSaturation();
         $this->colorLightness = self::getDefaultColorLightness();
         $this->grayscaleLightness = self::getDefaultGrayscaleLightness();
-        
+
         if ($options !== null) {
             $this->setOptions($options);
         }
     }
-    
+
     /**
      * Gets an associative array of all options of this style.
      *
@@ -89,7 +90,7 @@ class IdenticonStyle
 
         return $options;
     }
-    
+
     /**
      * Sets options in this style by specifying an associative array of option
      * values.
@@ -104,7 +105,7 @@ class IdenticonStyle
         }
         return $this;
     }
-    
+
     public function __get($name)
     {
         switch (strtolower($name)) {
@@ -127,7 +128,7 @@ class IdenticonStyle
                     "Unknown IdenticonStyle option '$name'.");
         }
     }
-    
+
     public function __set($name, $value)
     {
         switch (strtolower($name)) {
@@ -157,14 +158,14 @@ class IdenticonStyle
                     "Unknown IdenticonStyle option '$name'.");
         }
     }
-    
+
     /**
      * Normalizes a hue to the first turn [0, 360).
-     * 
+     *
      * @param mixed $hue
      * @return integer
      */
-    private static function normalizeHue($hue) 
+    private static function normalizeHue($hue)
     {
         if (!is_numeric($hue)) {
             throw new \InvalidArgumentException(
@@ -178,7 +179,7 @@ class IdenticonStyle
 
         return $hue;
     }
-    
+
     /**
      * Gets an array of allowed hues, or null if there are no restrictions.
      *
@@ -214,7 +215,7 @@ class IdenticonStyle
         $this->hues = empty($hues) ? null : $hues;
         return $this;
     }
-    
+
     /**
      * Gets the padding of an icon in percents in the range [0.0, 0.4].
      *
@@ -224,7 +225,7 @@ class IdenticonStyle
     {
         return $this->padding;
     }
-    
+
     /**
      * Sets the padding of an icon in percents.
      *
@@ -241,7 +242,7 @@ class IdenticonStyle
         $this->padding = (float)$value;
         return $this;
     }
-    
+
     /**
      * Gets the color of the identicon background.
      *
@@ -251,7 +252,7 @@ class IdenticonStyle
     {
         return $this->backgroundColor;
     }
-    
+
     /**
      * Sets the color of the identicon background.
      *
@@ -265,10 +266,10 @@ class IdenticonStyle
         } else {
             $this->backgroundColor = Color::parse($value);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Gets the saturation of the originally grayscale identicon shapes.
      *
@@ -278,7 +279,7 @@ class IdenticonStyle
     {
         return $this->grayscaleSaturation;
     }
-    
+
     /**
      * Sets the saturation of the originally grayscale identicon shapes.
      *
@@ -297,7 +298,7 @@ class IdenticonStyle
         $this->grayscaleSaturation = (float)$value;
         return $this;
     }
-    
+
     /**
      * Gets the saturation of the colored identicon shapes.
      *
@@ -307,7 +308,7 @@ class IdenticonStyle
     {
         return $this->colorSaturation;
     }
-    
+
     /**
      * Sets the saturation of the colored identicon shapes.
      *
@@ -326,7 +327,7 @@ class IdenticonStyle
         $this->colorSaturation = (float)$value;
         return $this;
     }
-    
+
     /**
      * Gets the value of the ColorLightness property.
      *
@@ -336,7 +337,7 @@ class IdenticonStyle
     {
         return $this->colorLightness;
     }
-    
+
     /**
      * Sets the value of the ColorLightness property.
      *
@@ -357,11 +358,11 @@ class IdenticonStyle
                 "The value passed to setColorLightness was invalid. ".
                 "Please check the documentation.");
         }
-        
+
         $this->colorLightness = array((float)$value[0], (float)$value[1]);
         return $this;
     }
-    
+
     /**
      * Gets the value of the GrayscaleLightness property.
      *
@@ -371,7 +372,7 @@ class IdenticonStyle
     {
         return $this->grayscaleLightness;
     }
-    
+
     /**
      * Sets the value of the GrayscaleLightness property.
      *
@@ -395,9 +396,9 @@ class IdenticonStyle
         $this->grayscaleLightness = array((float)$value[0], (float)$value[1]);
         return $this;
     }
-    
-    
-    
+
+
+
     /**
      * Gets the default value of the BackgroundColor property. Resolves to transparent.
      *
@@ -407,7 +408,7 @@ class IdenticonStyle
     {
         return Color::fromRgb(255, 255, 255, 255);
     }
-    
+
     /**
      * Gets the default value of the Padding property. Resolves to 0.08.
      *
@@ -417,7 +418,7 @@ class IdenticonStyle
     {
         return 0.08;
     }
-    
+
     /**
      * Gets the default value of the ColorSaturation property. Resolves to 0.5.
      *
@@ -427,7 +428,7 @@ class IdenticonStyle
     {
         return 0.5;
     }
-    
+
     /**
      * Gets the default value of the GrayscaleSaturation property. Resolves to 0.
      *
@@ -437,7 +438,7 @@ class IdenticonStyle
     {
         return 0;
     }
-    
+
     /**
      * Gets the default value of the ColorLightness property. Resolves to [0.4, 0.8].
      *
@@ -447,7 +448,7 @@ class IdenticonStyle
     {
         return array(0.4, 0.8);
     }
-    
+
     /**
      * Gets the default value of the GrayscaleLightness property. Resolves to [0.3, 0.9].
      *

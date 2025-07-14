@@ -8,7 +8,7 @@ use Jdenticon\Rendering\IconGenerator;
 use Jdenticon\Rendering\InternalPngRenderer;
 use Jdenticon\Rendering\ImagickRenderer;
 
-final class RenderingTest extends PHPUnit_Framework_TestCase
+final class RenderingTest extends PHPUnit\Framework\TestCase
 {
     public function testIcon39()
     {
@@ -39,7 +39,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
             'style' => array(
                 // Originally blue
                 'hues' => array(134 /*green*/, 0 /*red*/, 60 /*yellow*/),
-                
+
                 'backgroundColor' => '#0000002a',
                 'colorLightness' => array(0.30, 0.54),
                 'grayscaleLightness' => array(0.19, 0.41),
@@ -71,7 +71,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
         $this->performTest($icon, 73);
     }
 
-    private static function formatDataUri($imageFormat, $data) 
+    private static function formatDataUri($imageFormat, $data)
     {
         $mimeType = $imageFormat == 'png' ? 'image/png' : 'image/svg+xml';
         $base64 = base64_encode($data);
@@ -83,12 +83,12 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
         $imagickVersion = \Imagick::getVersion();
         $imagickVersion = $imagickVersion['versionString'];
 
-        $this->performTestCore("InternalPngRenderer", 
-            new InternalPngRenderer($icon->size, $icon->size), 
+        $this->performTestCore("InternalPngRenderer",
+            new InternalPngRenderer($icon->size, $icon->size),
             $icon, $number, 16, 1);
-        
-        $this->performTestCore("ImagickRenderer ($imagickVersion)", 
-            new ImagickRenderer($icon->size, $icon->size), 
+
+        $this->performTestCore("ImagickRenderer ($imagickVersion)",
+            new ImagickRenderer($icon->size, $icon->size),
             $icon, $number, 80, 80);
 
         // SVG should always produce exactly the same output
@@ -98,10 +98,10 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual, "SVG rendering test for icon '$number'.");
     }
 
-    private function extractPixels($data) 
+    private function extractPixels($data)
     {
         $image = imagecreatefromstring($data);
-        
+
         $r = array();
         $g = array();
         $b = array();
@@ -124,9 +124,9 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
         imagedestroy($image);
 
         return array(
-            'R' => $r, 
-            'G' => $g, 
-            'B' => $b, 
+            'R' => $r,
+            'G' => $g,
+            'B' => $b,
             'A' => $a
         );
     }
@@ -134,13 +134,13 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
     private function performTestCore($rendererName, $renderer, $icon, $number, $errorTolerance, $errorCount)
     {
         $icon->draw($renderer);
-     
+
         $actualRaw = $renderer->getData();
         $expectedRaw = file_get_contents(__DIR__ ."/$number.png");
 
         $actualChannels = $this->extractPixels($actualRaw);
         $expectedChannels = $this->extractPixels($expectedRaw);
-        
+
         $errors = 0;
 
         foreach ($actualChannels as $channel => $actual) {
@@ -159,7 +159,7 @@ final class RenderingTest extends PHPUnit_Framework_TestCase
                         // Format as data uri so that we can easily investigate failing rendering tests.
                         $actual = self::formatDataUri('png', $actualRaw);
                         $expected = self::formatDataUri('png', $expectedRaw);
-            
+
                         $x = $i % $icon->size;
                         $y = (int)($i / $icon->size);
 

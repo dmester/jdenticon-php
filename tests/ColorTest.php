@@ -4,7 +4,7 @@ include_once(__DIR__ . '/InitTests.php');
 
 use Jdenticon\Color;
 
-final class ColorTest extends PHPUnit_Framework_TestCase
+final class ColorTest extends PHPUnit\Framework\TestCase
 {
     public function testParseValid()
     {
@@ -31,27 +31,24 @@ final class ColorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("#adcbaeff", Color::parse("hsl(136.66667grad, 23%, 74% )")->__toString());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testParseInvalidHex()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         Color::parse("abc(5, 100%, 0%)");
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testParseInvalidRgb()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         Color::parse("rgb(56, 0, 5, 100%, 0%)");
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testParseInvalidHsl()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         Color::parse("hsl(1, 11%, 1)");
     }
 }

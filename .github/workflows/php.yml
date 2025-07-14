@@ -34,16 +34,15 @@ jobs:
     - name: Restore composer
       run: composer install
 
-    - name: Run tests without coverage
-      if: ${{ matrix.include_coverage != true }}
+    - name: Run tests
       run: |
         ./vendor/bin/phpunit tests --bootstrap ./vendor/autoload.php
 
-    - name: Run tests with coverage
+    - name: Run coverage
       if: ${{ matrix.include_coverage == true }}
       run: |
         mkdir coverage
-        ./vendor/bin/phpunit tests --bootstrap ./vendor/autoload.php --coverage-html ./coverage --coverage-filter ./src
+        ./vendor/bin/phpunit tests --bootstrap ./vendor/autoload.php --coverage-html ./coverage --coverage-filter ./src --exclude benchmark
 
     - name: 'Upload coverage report'
       uses: actions/upload-artifact@v4

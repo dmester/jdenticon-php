@@ -21,10 +21,10 @@ jobs:
     name: PHP ${{ matrix.php_version }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup PHP Action ${{ matrix.php_version }}
-      uses: shivammathur/setup-php@2.22.0
+      uses: shivammathur/setup-php@2.34.1
       with:
         php-version: '${{ matrix.php_version }}'
         tools: composer:2.2.15

@@ -14,41 +14,41 @@ final class RenderingTest extends PHPUnit\Framework\TestCase
 {
     public function testIcon39()
     {
-        $icon = new Identicon(array(
+        $icon = new Identicon([
             'value' => 39,
             'size' => 50,
             // config=ffffffff103c220a41560064
-            'style' => array(
+            'style' => [
                 // Originally purple
-                'hues' => array(134 /*green*/, 0 /*red*/, 60 /*yellow*/),
+                'hues' => [134 /*green*/, 0 /*red*/, 60 /*yellow*/],
                 'backgroundColor' => '#ffffffff',
-                'colorLightness' => array(0.66, 0.86),
-                'grayscaleLightness' => array(0.00, 1.00),
+                'colorLightness' => [0.66, 0.86],
+                'grayscaleLightness' => [0.00, 1.00],
                 'colorSaturation' => 0.35,
                 'grayscaleSaturation' => 0.10,
-            ))
-        );
+            ]
+        ]);
 
         $this->performTest($icon, 39);
     }
 
     public function testIcon76()
     {
-        $icon = new Identicon(array(
+        $icon = new Identicon([
             'value' => 76,
             'size' => 50,
             // config=0000002a103c2d481d351328
-            'style' => array(
+            'style' => [
                 // Originally blue
-                'hues' => array(134 /*green*/, 0 /*red*/, 60 /*yellow*/),
+                'hues' => [134 /*green*/, 0 /*red*/, 60 /*yellow*/],
 
                 'backgroundColor' => '#0000002a',
-                'colorLightness' => array(0.30, 0.54),
-                'grayscaleLightness' => array(0.19, 0.41),
+                'colorLightness' => [0.30, 0.54],
+                'grayscaleLightness' => [0.19, 0.41],
                 'colorSaturation' => 0.46,
                 'grayscaleSaturation' => 0.72,
-            ))
-        );
+            ]
+        ]);
 
         $this->performTest($icon, 76);
     }
@@ -58,10 +58,10 @@ final class RenderingTest extends PHPUnit\Framework\TestCase
      */
     public function testSimpleIcon(int $number)
     {
-        $icon = new Identicon(array(
+        $icon = new Identicon([
             'value' => $number,
             'size' => 50
-        ));
+        ]);
 
         $this->performTest($icon, $number);
     }
@@ -116,10 +116,10 @@ final class RenderingTest extends PHPUnit\Framework\TestCase
     {
         $image = imagecreatefromstring($data);
 
-        $r = array();
-        $g = array();
-        $b = array();
-        $a = array();
+        $r = [];
+        $g = [];
+        $b = [];
+        $a = [];
 
         $width = imagesx($image);
         $height = imagesy($image);
@@ -137,12 +137,12 @@ final class RenderingTest extends PHPUnit\Framework\TestCase
 
         imagedestroy($image);
 
-        return array(
+        return [
             'R' => $r,
             'G' => $g,
             'B' => $b,
             'A' => $a
-        );
+        ];
     }
 
     private function performTestCore(string $rendererName, RendererInterface $renderer, Identicon $icon, int $number, int $errorTolerance, int $errorCount): void

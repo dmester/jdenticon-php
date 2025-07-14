@@ -42,18 +42,18 @@ final class IdenticonTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $icon = new Identicon(array('size' => 0));
+        $icon = new Identicon(['size' => 0]);
     }
     public function testSetSize()
     {
-        $icon = new Identicon(array('size' => 42.3));
+        $icon = new Identicon(['size' => 42.3]);
         $options = $icon->getOptions();
         $this->assertEquals(42, $options['size']);
     }
 
     public function testSetEnableImageMagick()
     {
-        $icon = new Identicon(array('enableimagemagick' => false));
+        $icon = new Identicon(['enableimagemagick' => false]);
         $options = $icon->getOptions();
         $this->assertEquals(false, $options['enableImageMagick']);
     }
@@ -83,9 +83,7 @@ final class IdenticonTest extends \PHPUnit\Framework\TestCase
     public function testSetStyleArray()
     {
         $icon = new Identicon();
-        $icon->style = array(
-            'backgroundcolor' => '#abcd'
-        );
+        $icon->style = ['backgroundcolor' => '#abcd'];
         $this->assertEquals('#aabbccdd', $icon->getStyle()->getBackgroundColor()->__toString());
     }
     public function testSetStyleInstance()
@@ -100,18 +98,18 @@ final class IdenticonTest extends \PHPUnit\Framework\TestCase
 
     public function testOptions()
     {
-        $options = array(
+        $options = [
             'value' => 'hello',
             'size' => 451,
-            'style' => array(
+            'style' => [
                 'backgroundColor' => '#aa009911',
                 'padding' => 0.1,
                 'colorSaturation' => 0.2,
                 'grayscaleSaturation' => 0.3,
-                'colorLightness' => array(0.4, 0.5),
-                'grayscaleLightness' => array(0.6, 0.7)
-            )
-        );
+                'colorLightness' => [0.4, 0.5],
+                'grayscaleLightness' => [0.6, 0.7]
+            ]
+        ];
         $icon = new Identicon($options);
         $this->assertEquals($options, $icon->getOptions());
     }

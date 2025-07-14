@@ -48,7 +48,7 @@ class IdenticonStyle
      */
     public function getOptions(): array
     {
-        $options = array();
+        $options = [];
 
         $options['backgroundColor'] = $this->getBackgroundColor()->__toString();
         $options['padding'] = $this->getPadding();
@@ -173,7 +173,7 @@ class IdenticonStyle
      */
     public function setHues($value): self
     {
-        $hues = array();
+        $hues = [];
 
         if ($value !== null) {
             if (is_array($value)) {
@@ -327,7 +327,7 @@ class IdenticonStyle
                 "Please check the documentation.");
         }
 
-        $this->colorLightness = array((float)$value[0], (float)$value[1]);
+        $this->colorLightness = [(float)$value[0], (float)$value[1]];
         return $this;
     }
 
@@ -360,7 +360,7 @@ class IdenticonStyle
                 "The value passed to setGrayscaleLightness was invalid. ".
                 "Please check the documentation.");
         }
-        $this->grayscaleLightness = array((float)$value[0], (float)$value[1]);
+        $this->grayscaleLightness = [(float)$value[0], (float)$value[1]];
         return $this;
     }
 
@@ -413,7 +413,7 @@ class IdenticonStyle
      */
     public static function getDefaultColorLightness(): array
     {
-        return array(0.4, 0.8);
+        return [0.4, 0.8];
     }
 
     /**
@@ -423,6 +423,6 @@ class IdenticonStyle
      */
     public static function getDefaultGrayscaleLightness(): array
     {
-        return array(0.3, 0.9);
+        return [0.3, 0.9];
     }
 }

@@ -41,7 +41,7 @@ class EdgeTable
      */
     public function clear(): void
     {
-        $this->scanlines = array();
+        $this->scanlines = [];
         $this->nextPolygonId = 1;
     }
 
@@ -127,7 +127,7 @@ class EdgeTable
 
                 if ($fromX < $this->width) {
                     if (!isset($this->scanlines[$y])) {
-                        $this->scanlines[$y] = array();
+                        $this->scanlines[$y] = [];
                     }
                     
                     $this->scanlines[$y][] = new EdgeIntersection(

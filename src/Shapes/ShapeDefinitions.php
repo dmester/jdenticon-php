@@ -82,7 +82,7 @@ class ShapeDefinitions
      */
     private static function createCenterShapes(): array
     {
-        return array(
+        return [
             function (RendererInterface $renderer, int $cell, int $index): void {
                 $k = $cell * 0.42;
                 $renderer->addPolygon([
@@ -147,22 +147,22 @@ class ShapeDefinitions
                 }
 
                 $renderer->addRectangle(0, 0, $cell, $cell);
-                $renderer->addPolygon(array(
+                $renderer->addPolygon([
                     new Point($outer, $outer),
                     new Point($cell - $inner, $outer),
                     new Point($outer + ($cell - $outer - $inner) / 2, 
                         $cell - $inner)
-                ), true);
+                ], true);
             },
             function (RendererInterface $renderer, int $cell, int $index): void {
-                $renderer->addPolygon(array(
+                $renderer->addPolygon([
                     new Point(0, 0),
                     new Point($cell, 0),
                     new Point($cell, $cell * 0.7),
                     new Point($cell * 0.4, $cell * 0.4),
                     new Point($cell * 0.7, $cell),
                     new Point(0, $cell)
-                ));
+                ]);
             },
             function (RendererInterface $renderer, int $cell, int $index): void {
                 $renderer->addTriangle(
@@ -170,13 +170,13 @@ class ShapeDefinitions
                     TriangleDirection::SOUTH_EAST);
             },
             function (RendererInterface $renderer, int $cell, int $index): void {
-                $renderer->addPolygon(array(
+                $renderer->addPolygon([
                     new Point(0, 0),
                     new Point($cell, 0),
                     new Point($cell, $cell / 2),
                     new Point($cell / 2, $cell),
                     new Point(0, $cell)
-                ));
+                ]);
             },
             function (RendererInterface $renderer, int $cell, int $index): void {
                 $tmp = $cell * 0.14;
@@ -231,6 +231,6 @@ class ShapeDefinitions
                     $renderer->addCircle($m, $m, $s);
                 }
             }
-        );
+        ];
     }
 }

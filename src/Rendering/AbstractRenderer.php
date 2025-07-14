@@ -99,7 +99,7 @@ abstract class AbstractRenderer implements RendererInterface
      */
     private function addPolygonCore(array $points, bool $invert): void
     {
-        $transformedPoints = array();
+        $transformedPoints = [];
         foreach ($points as $point) {
             $transformedPoints[] = 
                 $this->transform->transformPoint($point->x, $point->y);
@@ -124,12 +124,12 @@ abstract class AbstractRenderer implements RendererInterface
      */
     public function addRectangle(float $x, float $y, float $width, float $height, bool $invert = false): void
     {
-        $this->addPolygonCore(array(
+        $this->addPolygonCore([
             new Point($x, $y),
             new Point($x + $width, $y),
             new Point($x + $width, $y + $height),
             new Point($x, $y + $height),
-        ), $invert);
+        ], $invert);
     }
 
     /**
@@ -170,12 +170,12 @@ abstract class AbstractRenderer implements RendererInterface
      */
     public function addTriangle(float $x, float $y, float $width, float $height, int $direction, bool $invert = false): void
     {
-        $points = array(
+        $points = [
             new Point($x + $width, $y),
             new Point($x + $width, $y + $height),
             new Point($x, $y + $height),
             new Point($x, $y)
-        );
+        ];
 
         array_splice($points, $direction, 1);
         
@@ -193,11 +193,11 @@ abstract class AbstractRenderer implements RendererInterface
      */
     public function addRhombus(float $x, float $y, float $width, float $height, bool $invert = false): void
     {
-        $this->addPolygonCore(array(
+        $this->addPolygonCore([
             new Point($x + $width / 2, $y),
             new Point($x + $width, $y + $height / 2),
             new Point($x + $width / 2, $y + $height),
             new Point($x, $y + $height / 2),
-        ), $invert);
+        ], $invert);
     }
 }

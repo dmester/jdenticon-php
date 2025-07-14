@@ -23,6 +23,6 @@ class SuperSampleRange
     {
         $this->fromX = $fromX;
         $this->toXExcl = $toXExcl;
-        $this->edges = array();
+        $this->edges = [];
     }
 }

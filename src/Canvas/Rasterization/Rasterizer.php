@@ -48,7 +48,7 @@ class Rasterizer
         $superSampleBuffer = new SuperSampleBuffer(
             $width, self::SAMPLES_PER_PIXEL_X);
 
-        $layers = array();
+        $layers = [];
         $color = 0;
         
         // Keeps track of how many of the subpixellayers that are used for 
@@ -306,7 +306,7 @@ class Rasterizer
     private static function getIntersections(array $edges, float $y): array
     {
         /** @var array<EdgeSuperSampleIntersection> */
-        $intersections = array();
+        $intersections = [];
 
         foreach ($edges as $edge) {
             if ($edge->y0 < $y && $edge->y1 >= $y ||
@@ -334,7 +334,7 @@ class Rasterizer
      */
     private static function getSuperSampleRanges(array &$scanline, int $width): array
     {
-        $superSampleRanges = array();
+        $superSampleRanges = [];
 
         $rangeIndex = 0;
         $scanlineCount = count($scanline);

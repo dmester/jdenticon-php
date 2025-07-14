@@ -31,14 +31,14 @@ class IconGenerator
 
     protected function __construct()
     {
-        $this->defaultShapes = array(
+        $this->defaultShapes = [
             // Sides
             new ShapeCategory(
                 /*$colorIndex=*/ 8,
                 /*$shapes=*/ ShapeDefinitions::getOuterShapes(),
                 /*$shapeIndex=*/ 2,
                 /*$rotationIndex=*/ 3,
-                /*$positions=*/ array(1,0, 2,0, 2,3, 1,3, 0,1, 3,1, 3,2, 0,2)
+                /*$positions=*/ [1,0, 2,0, 2,3, 1,3, 0,1, 3,1, 3,2, 0,2]
             ),
             
             // Corners
@@ -47,7 +47,7 @@ class IconGenerator
                 /*$shapes=*/ ShapeDefinitions::getOuterShapes(),
                 /*$shapeIndex=*/ 4,
                 /*$rotationIndex=*/ 5,
-                /*$positions=*/ array(0,0, 3,0, 3,3, 0,3)
+                /*$positions=*/ [0,0, 3,0, 3,3, 0,3]
             ),
             
             // Center
@@ -56,9 +56,9 @@ class IconGenerator
                 /*$shapes=*/ ShapeDefinitions::getCenterShapes(),
                 /*$shapeIndex=*/ 1,
                 /*$rotationIndex=*/ null,
-                /*$positions=*/ array(1,1, 2,1, 2,2, 1,2)
+                /*$positions=*/ [1,1, 2,1, 2,2, 1,2]
             )
-        );
+            ];
     }
     
     public static function getDefaultGenerator(): IconGenerator
@@ -145,9 +145,9 @@ class IconGenerator
      */
     protected function getShapes(ColorTheme $colorTheme, string $hash): array
     {
-        $usedColorThemeIndexes = array();
+        $usedColorThemeIndexes = [];
         $categories = self::getCategories();
-        $shapes = array();
+        $shapes = [];
         $colorCount = $colorTheme->getCount();
         
         foreach ($categories as $category) {
@@ -156,10 +156,10 @@ class IconGenerator
 
             if (self::isDuplicate(
                     // Disallow dark gray and dark color combo
-                    $usedColorThemeIndexes, $colorThemeIndex, array(0, 4)) || 
+                    $usedColorThemeIndexes, $colorThemeIndex, [0, 4]) || 
                 self::isDuplicate(
                     // Disallow light gray and light color combo
-                    $usedColorThemeIndexes, $colorThemeIndex, array(2, 3))
+                    $usedColorThemeIndexes, $colorThemeIndex, [2, 3])
             ) {
                 $colorThemeIndex = 1;
             }

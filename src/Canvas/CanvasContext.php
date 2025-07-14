@@ -19,7 +19,7 @@ use Jdenticon\Canvas\Matrix;
 class CanvasContext
 {
     /** @var array<string, array> */
-    private array $savedStates = array();
+    private array $savedStates = [];
     private EdgeTable $edges;
     private Matrix $transform;
     /** @var array<float> */
@@ -56,10 +56,10 @@ class CanvasContext
      */
     public function save(): void
     {
-        array_push($this->savedStates, array(
+        array_push($this->savedStates, [
             'transform' => $this->transform,
             'fillStyle' => $this->fillStyle
-        ));
+        ]);
     }
 
     /**
@@ -135,7 +135,7 @@ class CanvasContext
      */
     public function beginPath(): void
     {
-        $this->paths = array();
+        $this->paths = [];
     }
 
     /**
@@ -159,7 +159,7 @@ class CanvasContext
                 }
 
                 // Begin a new path
-                $this->paths[] = array($path[0], $path[1]);
+                $this->paths[] = [$path[0], $path[1]];
             }
         }
     }
@@ -173,7 +173,7 @@ class CanvasContext
     public function moveTo(float $x, float $y): void
     {
         $p = $this->transform->multiplyPoint($x, $y);
-        $this->paths[] = array($p->x, $p->y);
+        $this->paths[] = [$p->x, $p->y];
     }
 
     /**
@@ -186,7 +186,7 @@ class CanvasContext
     {
         $pathsCount = count($this->paths);
         if ($pathsCount == 0) {
-            $this->paths[] = array();
+            $this->paths[] = [];
             $pathsCount++;
         }
 
@@ -317,13 +317,13 @@ class CanvasContext
     {
         $polygonId = $this->edges->getNextPolygonId();
         
-        $points = array(
+        $points = [
             $this->transform->multiplyPoint($x, $y),
             $this->transform->multiplyPoint($x + $width, $y),
             $this->transform->multiplyPoint($x + $width, $y + $height),
             $this->transform->multiplyPoint($x, $y + $height),
             $this->transform->multiplyPoint($x, $y)
-        );
+        ];
 
         $pointsCount = count($points);
         for ($i = 1; $i < $pointsCount; $i++) {

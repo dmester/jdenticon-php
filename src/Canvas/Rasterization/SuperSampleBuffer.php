@@ -39,7 +39,7 @@ class SuperSampleBuffer
      */
     public function __construct(int $width, int $samplesPerPixel) 
     {
-        $this->samples = array();
+        $this->samples = [];
         $this->samplesPerPixel = $samplesPerPixel;
 
         $this->pixelOffset = 0;

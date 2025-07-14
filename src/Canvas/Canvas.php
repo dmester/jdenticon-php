@@ -75,7 +75,7 @@ class Canvas
      */
     public function toPng(array $keywords = []): string
     {
-        $colorRanges = array();
+        $colorRanges = [];
         
         Rasterizer::rasterize(
             $colorRanges, $this->edges, 

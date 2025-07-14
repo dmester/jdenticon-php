@@ -205,7 +205,7 @@ class ImagickRenderer extends AbstractRenderer
 
         // ImageMagick draws all polygons 1 pixel too large. To prevent this,
         // shrink polygons by 1 pixel.
-        $lines = array();
+        $lines = [];
         $previousPoint = null;
 
         // Transform all edges to lines.

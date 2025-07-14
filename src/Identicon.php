@@ -73,7 +73,7 @@ class Identicon
      */
     public static function fromHash(string $hash, int $size): self
     {
-        return new Identicon(array('hash' => $hash, 'size' => $size));
+        return new Identicon(['hash' => $hash, 'size' => $size]);
     }
 
     /**
@@ -87,7 +87,7 @@ class Identicon
      */
     public static function fromValue($value, int $size): self
     {
-        return new Identicon(array('value' => $value, 'size' => $size));
+        return new Identicon(['value' => $value, 'size' => $size]);
     }
 
     /**
@@ -97,7 +97,7 @@ class Identicon
      */
     public function getOptions(): array
     {
-        $options = array();
+        $options = [];
 
         if ($this->valueSet) {
             $options['value'] = $this->getValue();

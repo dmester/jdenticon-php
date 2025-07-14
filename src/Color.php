@@ -17,8 +17,7 @@ namespace Jdenticon;
 class Color
 {
     /** @var array<float> */
-    private static array $lightnessCompensations = array(
-        0.55, 0.5, 0.5, 0.46, 0.6, 0.55, 0.55);
+    private static array $lightnessCompensations = [0.55, 0.5, 0.5, 0.46, 0.6, 0.55, 0.55];
     
     /**
      * The red component of the color in the range [0, 255].

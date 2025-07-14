@@ -67,7 +67,7 @@ class PngEncoder
      * Writes an IDAT chunk of truecolor encoded image data.
      *
      * @param array $colorRanges Image data on the format 
-     *      array(count0, color0, count1, color1, ...)
+     *      [count0, color0, count1, color1, ...]
      * @param int $width Image width in pixels.
      * @param int $height Image height in pixels.
      */
@@ -109,7 +109,7 @@ class PngEncoder
      * Writes an IDAT chunk of indexed image data.
      *
      * @param array $colorRanges Image data on the format 
-     *      array(count0, color0, count1, color1, ...)
+     *      [count0, color0, count1, color1, ...]
      * @param \Jdenticon\Canvas\Png\PngPalette $palette Palette containing the 
      *      indexed colors.
      * @param int $width Image width in pixels.

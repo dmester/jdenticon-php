@@ -120,6 +120,6 @@ class InternalPngRenderer extends AbstractRenderer
      */
     public function getData(): string
     {
-        return $this->canvas->toPng(array('Software' => 'Jdenticon'));
+        return $this->canvas->toPng(['Software' => 'Jdenticon']);
     }
 }

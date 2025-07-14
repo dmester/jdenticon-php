@@ -19,7 +19,7 @@ use Jdenticon\Color;
 class SvgRenderer extends AbstractRenderer
 {
     /** @var array<string, SvgPath> */
-    private array $pathsByColor = array();
+    private array $pathsByColor = [];
     private ?SvgPath $path = null;
     private int $width;
     private int $height;

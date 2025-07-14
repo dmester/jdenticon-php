@@ -12,23 +12,12 @@ jobs:
       matrix:
         include:
           - php_version: 7.4
-            phpunit_version: 8.*
-            phptimer_version: 2.*
           - php_version: 8.0
-            phpunit_version: 8.*
-            phptimer_version: 2.*
           - php_version: 8.1
-            phpunit_version: 8.*
-            phptimer_version: 2.*
           - php_version: 8.2
-            phpunit_version: 8.*
-            phptimer_version: 2.*
           - php_version: 8.3
-            phpunit_version: 8.*
-            phptimer_version: 2.*
           - php_version: 8.4
-            phpunit_version: 8.*
-            phptimer_version: 2.*
+            include_coverage: true
     name: PHP ${{ matrix.php_version }}
 
     steps:
@@ -43,7 +32,22 @@ jobs:
         ini-values: error_reporting=E_ALL
 
     - name: Restore composer
-      run: composer require phpunit/phpunit:${{ matrix.phpunit_version }} phpunit/php-timer:${{ matrix.phptimer_version }} --dev
+      run: composer install
 
-    - name: Run tests
-      run: ./vendor/bin/phpunit tests --bootstrap ./vendor/autoload.php
+    - name: Run tests without coverage
+      if: ${{ matrix.include_coverage != true }}
+      run: |
+        ./vendor/bin/phpunit tests --bootstrap ./vendor/autoload.php
+
+    - name: Run tests with coverage
+      if: ${{ matrix.include_coverage == true }}
+      run: |
+        mkdir coverage
+        ./vendor/bin/phpunit tests --bootstrap ./vendor/autoload.php --coverage-html ./coverage --coverage-filter ./src
+
+    - name: 'Upload coverage report'
+      uses: actions/upload-artifact@v4
+      if: ${{ matrix.include_coverage == true }}
+      with:
+        name: coverage
+        path: ./coverage
